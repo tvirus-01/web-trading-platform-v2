@@ -1,0 +1,1488 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="app-container">
+<nav class="nav-bar hide-mb">
+    <div class="navbrand">
+        <span>Hello, User</span>
+    </div>
+    <div class="navbar-right">
+        <div class="navbar-right-1">
+            <span>Equity: <strong>952.87</strong></span>
+            <span>Balance: <strong>€ 0.00</strong></span>
+            <a class="btn-deposit">
+                <img src="./images/deposit-icon.svg">
+                DEPOSIT
+            </a>
+        </div>
+        <div>
+            <div class="dropdown-menu-end account-dropdown-wrapper">
+                <button class="btn btn-secondary dropdown-toggle account-dropdown-btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="./images/account-icon.svg" alt="account-icon">
+                    Demo Account
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" id="dropdown-account" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-account-content">
+                        <div class="dropdown-account left">
+                            <h5>Demo Account</h5>
+                            <span>ID: <span style="color: #7c828b;">5000011</span></span>
+                            <span>Balance: <span style="color: #2bab3f;">€ 0.00</span></span>
+                            <span>Profit/Losses: <span style="color: #da4830;">€-47.13</span    ></span>
+                        </div>
+                        <div class="dropdown-account right">
+                            <h5>Trading information</h5>
+                            <span>Currency: <span style="color: #7c828b;">EUR</span></span>
+                            <span>Leverage: <span style="color: #7c828b;">1.200</span></span>
+                            <span>Stop out: <span style="color: #7c828b;">20</span></span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+        <div class="language-dropdown-container">
+            <div class="dropdown-center">
+                <button class="language-button dropdown-toggle" type="button" id="languageDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent" data-bs-offset="0,10">
+                    <img src="./images/lang/EN.png">EN
+                </button>
+                <div class="dropdown-menu" id="languageDropdownMenu" aria-labelledby="languageDropdownButton">
+                    <a class="dropdown-item" href="#">
+                        <img src="./images/lang/AR.png">AR
+                        </a>
+                    <a class="dropdown-item" href="#">
+                    <img src="./images/lang/ES.png">ES
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="language-dropdown-container">
+            <div class="dropdown-menu-end">
+                <button class="notification-button" type="button" id="languageDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" id="notificationsDropdownMenu" aria-labelledby="languageDropdownButton">
+                    <h3>Notifications</h3>
+                    <div class="notifications-message-container">
+                        <span>You haven't received any notifications until now</span>
+                    </div>
+
+                    <div class="notifications-button-container">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notificationsModal">
+                            See all
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown drop-start chart-bottom-item  settings-dropdown">
+            <button class="settings-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+            </button>
+            <ul class="dropdown-menu settings-dropdown-container">
+                <li role="dropdown-item">
+                    <a class="link-settings" href="#">Settings</a>
+                </li>
+                <li role="dropdown-item">
+                    <a class="link-theme" href="#">Theme</a>
+                </li>
+                <li role="dropdown-item">
+                    <a class="link-logout" href="#">Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<nav class="nav-bar hide-desktop">
+    <div class="navbrand mobile">
+        <img src="./images/logo.png" alt="mobile header logo images">
+    </div>
+    <div class="navbar-right">
+        <div class="dropdown">
+            <button class="mobile-navbar-buttons notifications" type="button" id="languageDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div class="dropdown-menu" id="notificationsDropdownMenu" aria-labelledby="languageDropdownButton">
+                <h3>Notifications</h3>
+                <div class="notifications-message-container">
+                    <span>You haven't received any notifications until now</span>
+                </div>
+
+                <div class="notifications-button-container">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notificationsModal">
+                        See all
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button class="mobile-navbar-buttons settings" type="button" data-bs-toggle="modal" data-bs-target="#mobileSettings"></button>
+        <button class="mobile-navbar-buttons new-order" type="button" data-bs-toggle="modal" data-bs-target="#newOrderModal" onclick="document.getElementById('pills-new-market-tab').click()"></button>
+        <button class="mobile-navbar-buttons new-pending" type="button" data-bs-toggle="modal" data-bs-target="#newOrderModal" onclick="document.getElementById('pills-new-pending-tab').click()"></button>
+    </div>
+</nav>
+<div class="main-container hide-mb">
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar-->
+        <div class="hide-mb" id="sidebar-wrapper">
+            <button class="hide-mb" id="sidebarToggle"></button>
+            <aside class="main-left-panel">
+                <button class="hide-mb" id="sidebarHide"></button>
+                <div class="left-panel-btn-container">
+                    <button class="btn btn-primary left-panel-btn">ALL QUOTES</button>
+                    <button class="btn btn-primary left-panel-btn" style="background: #1f3755; color: #ffffff4d;">FAVORITE</button>
+                </div>
+                <div class="left-panel-input-container">
+                    <div class="chart-bottom-search aside-small-search">
+                        <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary" placeholder="Search" />
+                    </div>
+                    <div class="dropdown-center chart-bottom-item small-left-panel-dropdown-container">
+                        <button class="btn btn-sm btn-outline-secondary  small-bottom-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                            ALL
+                        </button>
+                        <ul class="dropdown-menu quick-trading-values-selector">
+                            <li role="dropdown-item"><a href="#">ALL</a></li>
+                            <li role="dropdown-item"><a href="#">Forex</a></li>
+                            <li role="dropdown-item"><a href="#">Cfd</a></li>
+                            <li role="dropdown-item"><a href="#">Metals</a></li>
+                            <li role="dropdown-item"><a href="#">Crypto</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="left-panel-quotes-container">
+                    <div class="left-panel-quotes-holder">
+                        <table class="table table-sm table-striped left-panel-table">
+                            <thead>
+                                <tr>
+                                <th scope="col">Instrument</th>
+                                <th scope="col">Bid</th>
+                                <th scope="col">Ask</th>
+                                </tr>
+                            </thead>
+                            </table>
+                            <div class="left-panel-table-dropdown-wrapper">
+                            <div class="left-panel-table-dropdown-container">
+                                <button class="left-panel-table-toggle dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#forex" aria-expanded="true" aria-controls="forex">
+                                    Forex
+                                </button>
+                                <div class="left-panel-data-container collapse show" id="forex">
+                                    <ul id="forex-table" class="left-panel-table-row">
+                                    </ul>
+                                </div>
+                                <button class="left-panel-table-toggle dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#cfd" aria-expanded="true" aria-controls="cfd">
+                                    Cfd
+                                </button>
+                                <div class="left-panel-data-container collapse" id="cfd">
+                                    <ul id="cfd-table" class="left-panel-table-row">
+                                    </ul>
+                                </div>
+                                <button class="left-panel-table-toggle dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#metals" aria-expanded="true" aria-controls="metals">
+                                    Metals
+                                </button>
+                                <div class="left-panel-data-container collapse" id="metals">
+                                    <ul id="metals-table" class="left-panel-table-row">
+                                    </ul>
+                                </div>
+                                <button class="left-panel-table-toggle dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#crypto" aria-expanded="true" aria-controls="crypto">
+                                    Crypto
+                                </button>
+                                <div class="left-panel-data-container collapse" id="crypto">
+                                    <ul id="crypto-table" class="left-panel-table-row">
+                                    </ul>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        <!-- Page content wrapper-->
+        <div id="page-content-wrapper">
+            <div class="main-content-container">
+                <div class="chart-container">
+                    <div class="chart-control">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary chart-control-new-chart" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu" id="new-chart-control-wrapper" aria-labelledby="dropdownMenuButton">
+                                <div class="new-chart-control-container">
+                                <div class="new-chart-control-header">
+                                    <div class="chart-bottom-search chart-bottom-item">
+                                        <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary search-input" placeholder="Search">
+                                    </div>
+                                    <ul class="nav nav-pills mb-3 new-chart-control-tabscontainer" id="pills-tab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="pills-forex-tab" data-bs-toggle="pill" data-bs-target="#pills-forex" type="button" role="tab" aria-controls="pills-forex" aria-selected="true">FOREX</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-cfd-tab" data-bs-toggle="pill" data-bs-target="#pills-cfd" type="button" role="tab" aria-controls="pills-cfd" aria-selected="false">CFD</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-metals-tab" data-bs-toggle="pill" data-bs-target="#pills-metals" type="button" role="tab" aria-controls="pills-metals" aria-selected="false">METALS</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pills-crypto-tab" data-bs-toggle="pill" data-bs-target="#pills-crypto" type="button" role="tab" aria-controls="pills-crypto" aria-selected="false">CRYPTO</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                    <div class="tab-content new-chart-control-table-container" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-forex" role="tabpanel" aria-labelledby="pills-forex-tab">
+                                        <div class="new-chart-control-tab-title">
+                                            <span>FOREX</span>
+                                        </div>
+                                        <ul id="new-chart-control-content-forex" class="new-chart-control-content">
+                                            <li></li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-cfd" role="tabpanel" aria-labelledby="pills-cfd-tab">
+                                        <div class="new-chart-control-tab-title">
+                                            <span>CFD</span>
+                                        </div>
+                                        <ul id="new-chart-control-content-forex" class="new-chart-control-content">
+                                            <li></li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-metals" role="tabpanel" aria-labelledby="pills-metals-tab">
+                                        <div class="new-chart-control-tab-title">
+                                            <span>METALS</span>
+                                        </div>
+                                        <ul id="new-chart-control-content-forex" class="new-chart-control-content">
+                                            <li></li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-crypto" role="tabpanel" aria-labelledby="pills-crypto-tab">
+                                        <div class="new-chart-control-tab-title">
+                                            <span>CRYPTO</span>
+                                        </div>
+                                        <ul id="new-chart-control-content-forex" class="new-chart-control-content">
+                                            <li></li>
+                                        </ul>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="chart-control-button-wrapper">
+                        </div>
+                        <div class="chart-control-options-container">
+                            <div class="dropdown-menu-end">
+                                <button class="charts-number-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    charts number
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" id="dropdown-chart-selector" aria-labelledby="dropdownMenuButton">
+                                    <div class="chart-selector-wrapper">
+                                        <div class="chart-selector-container">
+                                            <span>1 chart</span>
+                                            <button class="chart-selector-button one-chart"></button>
+                                        </div>
+                                        <div class="chart-selector-container">
+                                            <span>2 chart</span>
+                                            <button class="chart-selector-button two-chart-first"></button>
+                                            <button class="chart-selector-button two-chart-second"></button>
+                                        </div>
+                                        <div class="chart-selector-container">
+                                            <span>3 chart</span>
+                                            <button class="chart-selector-button three-chart-first"></button>
+                                            <button class="chart-selector-button three-chart-second"></button>
+                                            <button class="chart-selector-button three-chart-third"></button>
+                                            <button class="chart-selector-button three-chart-fourth"></button>
+                                            <button class="chart-selector-button three-chart-fifth"></button>
+                                        </div>
+                                        <div class="chart-selector-container">
+                                            <span>4 chart</span>
+                                            <button class="chart-selector-button four-chart"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <a class="full-screen" onclick="toggleFullScreen()"></a>
+                        </div>
+                    </div>
+                    <div id="quick-trading">
+                        <button id="quick-trading-sell">
+                            <span>SELL </span>
+                            <span id="quick-trding-sell-value" class="quick-trading-value">0.696969</span>
+                        </button>
+                        <div class="dropdown-center quick-trading-value-container" id="quick-trading-value-counter">
+                                <input id="quick-trading-value-input" value="0.01"/>
+                                    <button class="dropdown-toggle quick-trading-values-trigger" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                                    </button>
+                                    <ul class="dropdown-menu quick-trading-values-selector">
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.01)">0.01</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.05)">0.05</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.10)">0.10</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.20)">0.20</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.50)">0.50</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(1.00)">1.00</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(2.00)">2.00</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(3.00)">3.00</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(4.00)">4.00</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(5.00)">5.00</a></li>
+                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(10.00)">10.00</a></li>
+                                    </ul>
+                            <div class="quick-trading-buttons-container">
+                                <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                                <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                            </div>
+                        </div>
+                        <button id="quick-trading-buy">
+                            <span>BUY</span>
+                            <span id="quick-trding-buy-value" class="quick-trading-value">0.696969</span>
+                        </button>
+                        <button class="btn btn-primary btn-sm quick-trading-options-btn" type="button" data-bs-toggle="modal" data-bs-target="#newOrderModal"></button>
+
+                    </div>
+                    <div class="chart-elements-wrapper">
+                        <custom-lightweight-chart id="chart"
+                        autosize
+                        type="line"
+                        ></custom-lightweight-chart>
+                        <div class="chart-zoom-buttons-container">
+                            <button class="chart-zoom-button" id="chart-zoom-out"></button>
+                            <button class="chart-zoom-button" id="chart-zoom-in"></button>
+                            <button class="chart-zoom-button" id="chart-move-button"></button>
+                        </div>
+                    </div>
+                    <div class="legend-container"></div>
+                    <div class="chart-buttons-container">
+                        <div class="btn-group dropend">
+                            <button class="chart-type-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu chart-type-options">
+                                <div class="type-options-container">
+                                    <a class="change-type-button area" id="change-type-area">Area</a>
+                                    <a class="change-type-button line" id="change-type-line">Line</a>
+                                    <a class="change-type-button bar" id="change-type-bar">Bars</a>
+                                    <a class="change-type-button candle" id="change-type-candlestick">Candles</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group dropend">
+                            <button class="chart-type-btn" id="chart-cursor-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu chart-type-options">
+                                <div class="type-options-container">
+                                    <a class="change-type-button cursor" id="change-type-area">Cursor</a>
+                                    <a class="change-type-button crosshair" id="change-type-line">Crosshair</a>
+                                    <a class="change-type-button dot" id="change-type-bar">Dot</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group dropend">
+                            <button class="chart-type-btn" id="chart-lines-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu chart-type-options">
+                                <div class="type-options-container">
+                                    <a class="change-type-button vertical" id="change-type-area">Vertical Line</a>
+                                    <a class="change-type-button horizontal" id="change-type-line">Horizontal Line</a>
+                                    <a class="change-type-button trend" id="change-type-bar">Trend Line</a>
+                                    <a class="change-type-button fibonacci" id="change-type-candlestick">Fibonacci lines</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group dropend">
+                            <button class="chart-type-btn" id="chart-stats-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu chart-type-options">
+                                <div class="type-options-container" id="change-stats-dropdown-container">
+                                    <!-- Default dropend button -->
+                                    <div class="dropend">
+                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Trend
+                                        </a>
+                                        <ul class="dropdown-menu change-stats-dropdown">
+                                            <li>
+                                                <a href="#">Adaptive&nbsp;Moving&nbsp;Average</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Alligator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Average&nbsp;Directional&nbsp;Movement&nbsp;Index</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Envelopes</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Moving Average</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Parabolic SAR</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Price Channel</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Range&nbsp;Action&nbsp;Verification&nbsp;Index</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropend">
+                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Oscillators
+                                        </a>
+                                        <ul class="dropdown-menu change-stats-dropdown oscillators">
+                                            <li>
+                                                <a href="#">Accelerator Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Aroon</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Awesome Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Bears Power</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Bulls Power</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Chaikin Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Commodity&nbsp;Channel&nbsp;Index</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">DeMarker</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Detrended&nbsp;Price&nbsp;Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Gator Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">MACD</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Momentum</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Moving&nbsp;Average&nbsp;of&nbsp;Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Price Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Rate Of Change</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Relative Strength Index</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Relative Vigor Index</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Stochastic Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">William''s Percent Range</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropend">
+                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Volatility
+                                        </a>
+                                        <ul class="dropdown-menu change-stats-dropdown">
+                                            <li>
+                                                <a href="#">Average True Range</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Bollinger Bands</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Standard Deviation</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropend">
+                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Volumes
+                                        </a>
+                                        <ul class="dropdown-menu change-stats-dropdown">
+                                            <li>
+                                                <a href="#">Accumulation/Distribution</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Money Flow Index</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">On Balance Volume</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropend">
+                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Other
+                                        </a>
+                                        <ul class="dropdown-menu change-stats-dropdown">
+                                            <li>
+                                                <a href="#">Fractals</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Ichimoku Kinko Hyo</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Market&nbsp;Facilitation&nbsp;Index</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Pivot Points</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">ZigZag</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropend">
+                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Bill Williams
+                                        </a>
+                                        <ul class="dropdown-menu change-stats-dropdown" data-popper-placement="right-start">
+                                            <li>
+                                                <a href="#">Accelerator Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Alligator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Awesome Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Fractals</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Gator Oscillator</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Market&nbsp;Facilitation&nbsp;Index</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropend">
+                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Alexander Elder
+                                        </a>
+                                        <ul class="dropdown-menu change-stats-dropdown">
+                                            <li>
+                                                <a href="#">Bears Power</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Bulls Power</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">MACD</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Relative Strength Index</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropend">
+                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Larry Williams
+                                        </a>
+                                        <ul class="dropdown-menu change-stats-dropdown">
+                                            <li>
+                                                <a href="#">Accumulation/Distribution</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">William''s Percent Range</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group dropend">
+                            <button class="chart-type-btn" id="chart-time-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu chart-type-options">
+                                <div class="double-chart-container">
+                                    <div class="type-options-container change-time-dropdown">
+                                        <a class="change-stats-button">5 seconds</a>
+                                        <a class="change-stats-button">1 minute</a>
+                                        <a class="change-stats-button">5 minutes</a>
+                                        <a class="change-stats-button">15 minutes</a>
+                                        <a class="change-stats-button">30 minutes</a>
+                                        <a class="change-stats-button last">1 hour</a>
+                                    </div>
+                                    <div class="type-options-container change-time-dropdown last">
+                                        <a class="change-stats-button">4 hours</a>
+                                        <a class="change-stats-button">12 hours</a>
+                                        <a class="change-stats-button">1 day</a>
+                                        <a class="change-stats-button">1 week</a>
+                                        <a class="change-stats-button last">1 month</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Notifications modal -->
+                    <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                            <div class="modal-content">
+                                <button type="button" class="btn-close" id="notificationsModalClose" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="modal-header">
+                                    <h1 class="modal-title" id="notificationsModalLabel">Notifications</h1>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="total">
+                                        <span><strong>Total:</strong> 0</span>
+                                    </div>
+                                    <table class="table notification-table">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Message</th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="notifications-modal-pagination-container">
+                                        <span class="pagination-text"><strong>Pages: </strong></span>
+                                        <ul class="pagination notifications-modal-pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#"></a></li>
+                                            <li class="page-item"><a class="page-link" href="#"></a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                            </ul>
+                                            <span class="pagination-text"><strong>1 of 0</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Notifications modal -->
+
+
+
+                    <div class="chart-bottom-panel">
+                        <a id="hide-table"></a>
+                        <a id="show-table"></a>
+                        <div class="chart-bottom-buttons-container">
+                            <div class="chart-bottom-buttons-wrapper">
+                                <button class="btn btn-sm btn-outline-primary chart-bottom-item small-bottom-button" id="new-order-button" type="button" data-bs-toggle="modal" data-bs-target="#newOrderModal">NEW ORDER</button>
+                                <div class="chart-bottom-search chart-bottom-item">
+                                    <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary" placeholder="Search" />
+                                </div>
+                                <div class="dropdown-center chart-bottom-item small-bottom-dropdown-container">
+                                        <button class="btn btn-sm btn-outline-secondary  small-bottom-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                                            All sides
+                                        </button>
+                                        <ul class="dropdown-menu quick-trading-values-selector">
+                                            <li role="dropdown-item"><a href="#">All sides</a></li>
+                                            <li role="dropdown-item"><a href="#">Only buy</a></li>
+                                            <li role="dropdown-item"><a href="#">Only sell</a></li>
+                                        </ul>
+                                </div>
+                                <div class="dropdown-center chart-bottom-item small-bottom-dropdown-container">
+                                    <button class="btn btn-sm btn-outline-secondary  small-bottom-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                                        All profits
+                                    </button>
+                                    <ul class="dropdown-menu quick-trading-values-selector">
+                                        <li role="dropdown-item"><a href="#">All profits</a></li>
+                                        <li role="dropdown-item"><a href="#">Profitable positions</a></li>
+                                        <li role="dropdown-item"><a href="#">Unprofitable positions</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                                <ul class="nav nav-pills bottom-panel-tabs-buttongroup" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="bottom-panel-pills-button nav-link active" id="pills-active-tab" data-bs-toggle="pill" data-bs-target="#pills-active" type="button" role="tab" aria-controls="pills-active" aria-selected="true">ACTIVE (0)</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="bottom-panel-pills-button nav-link" id="pills-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-pending" type="button" role="tab" aria-controls="pills-pending" aria-selected="false">PENDING(0)</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="bottom-panel-pills-button nav-link" id="pills-history-tab" data-bs-toggle="pill" data-bs-target="#pills-history" type="button" role="tab" aria-controls="pills-history" aria-selected="false">HISTORY</button>
+                                </li>
+                                </ul>
+                            </div>
+                            <div class="tabs-tables-container tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-active" role="tabpanel" aria-labelledby="pills-active-tab" tabindex="0">
+                                    <div class="table-responsive chart-bottom-orders">
+                                        <table class="table table-sm table-striped chart-bottom-table">
+                                            <thead id="bottom-active-panel-table-head">
+                                                <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Instrument</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Amount</th>
+                                                <th scope="col">Trade volume</th>
+                                                <th scope="col">Open rate</th>
+                                                <th scope="col">Open time</th>
+                                                <th scope="col">S/L</th>
+                                                <th scope="col">T/P</th>
+                                                <th scope="col">Swap</th>
+                                                <th scope="col">Commission</th>
+                                                <th scope="col">Profit/Losses</th>
+                                                <th scope="col"></th>
+                                                <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="bottom-active-panel-table">
+                                            </tbody>
+                                            </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-pending" role="tabpanel" aria-labelledby="pills-pending-tab" tabindex="0">
+                                    <div class="table-responsive chart-bottom-orders">
+                                        <table class="table table-sm table-striped chart-bottom-table">
+                                            <thead id="bottom-pending-panel-table-head">
+                                                <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Instrument</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Amount</th>
+                                                <th scope="col">Trade volume</th>
+                                                <th scope="col">Open rate</th>
+                                                <th scope="col">Open time</th>
+                                                <th scope="col">S/L</th>
+                                                <th scope="col">T/P</th>
+                                                <th scope="col">Swap</th>
+                                                <th scope="col">Commission</th>
+                                                <th scope="col">Profit/Losses</th>
+                                                <th scope="col"></th>
+                                                <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="bottom-pending-panel-table">
+                                            </tbody>
+                                            </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-history" role="tabpanel" aria-labelledby="pills-history-tab" tabindex="0">
+                                    <div class="table-responsive chart-bottom-orders">
+                                        <table class="table table-sm table-striped chart-bottom-table">
+                                            <thead id="bottom-history-panel-table-head">
+                                                <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Instrument</th>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Amount</th>
+                                                <th scope="col">Trade volume</th>
+                                                <th scope="col">Open rate</th>
+                                                <th scope="col">Open time</th>
+                                                <th scope="col">S/L</th>
+                                                <th scope="col">T/P</th>
+                                                <th scope="col">Swap</th>
+                                                <th scope="col">Commission</th>
+                                                <th scope="col">Profit/Losses</th>
+                                                <th scope="col"></th>
+                                                <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="bottom-history-panel-table">
+                                            </tbody>
+                                            </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer hide-mb">
+            <div class="footer-left">
+                <p><strong>Server:</strong> 23:18:58</p>
+                <p><strong>Version:</strong> 1.5.7</p>
+            </div>
+            <div class="footer-right">
+                <p><strong>Balance:</strong> € 0.00</p>
+                <p class="footer-equity"><strong>Equity:</strong> € 952.87</p>
+                <p><strong>Profit/</strong>Losses: -47.13</p>
+                <p><strong>Margin:</strong> 371.56</p>
+                <p><strong>Free:</strong> 497.11</p>
+                <p><strong>Level:</strong> 233.88%</p>
+                <p><strong>Bonus:</strong> 0.00</p>
+                <p><strong>Credit:</strong> 1,000.00</p>
+
+            </div>
+
+        </footer>
+    </div>
+
+
+<!-- Mobile views -->
+<div class="main-container hide-desktop">
+    <div class="d-flex" id="wrapper">
+        <div class="mobile-navigation-tabs btn-group hide-desktop" role="group" aria-label="Basic example">
+            <div class="tab-content" id="pills-tabContent" style="height: 100%;">
+                <div class="tab-pane fade show active" id="pills-quotes" role="tabpanel" aria-labelledby="pills-quotes-tab" tabindex="0">
+                    <div class="hide-desktop" id="sidebar-wrapper">
+                        <aside class="main-left-panel">
+                            <div class="btn-group left-panel-mobile" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-secondary chart-bottom-panel-button">FAV</button>
+                                <button type="button" class="btn btn-secondary chart-bottom-panel-button">FOREX (0)</button>
+                                <button type="button" class="btn btn-secondary chart-bottom-panel-button">CFD (0)</button>
+                                <button type="button" class="btn btn-secondary chart-bottom-panel-button">METALS(0)</button>
+                                <button type="button" class="btn btn-secondary chart-bottom-panel-button">CRYPTO(0)</button>
+                            </div>
+                            <div class="left-panel-input-container">
+                                <div class="chart-bottom-search aside-small-search">
+                                    <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary" placeholder="Search" />
+                                </div>
+                            </div>
+                            <div class="mobile-left-panel-quotes-container">
+                                <div class="left-panel-quotes-holder">
+                                    <table class="table table-sm table-striped chart-bottom-table">
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">Instrument</th>
+                                            <th scope="col">Bid</th>
+                                            <th scope="col">Ask</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <ul id="mobile-quotes-table">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="pills-charts" role="tabpanel" aria-labelledby="pills-charts-tab" tabindex="0" style="height: 100%;">
+                    <div style="height: calc(100% - 55px);">
+                        <div class="mobile-chart-control">
+                            <button class="mobile-add-indicators"></button>
+                            <div class="dropdown drop-start">
+                                <button class="btn btn-sm btn-outline-secondary small-bottom-dropdown dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+                                    AUDNZD
+                                </button>
+                                <div class="dropdown-menu mobile-chart-control-dropdown-container">
+                                    <ul id="mobile-chart-control-dropdown">
+                                    </ul>
+                                </div>
+                            </div>
+                            <button class="mobile-remove-indicators"></button>
+                        </div>
+                        <div>
+                            <div class="mobile-chart-legend-container">
+                                <span>1.44154</span>
+                                <img src="./images/flags/AUDCAD.png">
+                                <span>1.44154</span>
+                            </div>
+                            <div class="mobile-chart-type-container">
+                                <button id="mobile-change-type-candlestick" class="active">Candles</button>
+                                <button id="mobile-change-type-bar">Bars</button>
+                                <button id="mobile-change-type-area">Area</button>
+                                <button id="mobile-change-type-line">Line</button>
+                            </div>
+                            <div class="mobile-chart-period-control">
+                                <ul>
+                                    <li>
+                                        <a href="#">1m</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">5m</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">15m</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">30m</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="active">1h</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">4h</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">12h</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">1d</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">1w</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">1mn</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="mobile-chart-container" style="height: calc(100% - 202px);">
+                            <div class="chart-elements-wrapper full-height">
+                                <mobile-lightweight-chart id="mobile-chart"
+                                autosize
+                                type="line"
+                                ></mobile-lightweight-chart>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-orders" role="tabpanel" aria-labelledby="pills-orders-tab" tabindex="0">
+                    <div class="mobile-pills-orders-container">
+                        <ul class="nav nav-tabs" id="orderTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="mobile-active-tab" data-bs-toggle="tab" data-bs-target="#mobile-active-tab-pane" type="button" role="tab" aria-controls="mobile-active-tab-pane" aria-selected="true">ACTIVE (88)</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="mobile-pending-tab" data-bs-toggle="tab" data-bs-target="#mobile-pending-tab-pane" type="button" role="tab" aria-controls="mobile-pending-tab-pane" aria-selected="false">PENDING (0)</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="mobile-history-tab" data-bs-toggle="tab" data-bs-target="#mobile-history-tab-pane" type="button" role="tab" aria-controls="mobile-history-tab" aria-selected="false">HISTORY</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="orderTabContent">
+                            <div class="tab-pane fade show active" id="mobile-active-tab-pane" role="tabpanel" aria-labelledby="mobile-active-tab" tabindex="0">
+                                <table class="table table-sm table-striped chart-orders-table" id="mobile-active-orders-table-head">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Instr.</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Profit/Losses</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <ul id="mobile-active-orders-table" class="mobile-orders-table">
+
+                                </ul>
+                            </div>
+
+                            <div class="tab-pane fade" id="mobile-pending-tab-pane" role="tabpanel" aria-labelledby="mobile-pending-tab" tabindex="0">
+                                <table class="table table-sm table-striped chart-orders-table" id="mobile-pending-orders-table-head">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Instr.</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Profit/Losses</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <ul id="mobile-pending-orders-table" class="mobile-orders-table">
+
+                                </ul>
+                            </div>
+
+                            <div class="tab-pane fade" id="mobile-history-tab-pane" role="tabpanel" aria-labelledby="mobile-history-tab" tabindex="0">
+                                <table class="table table-sm table-striped chart-orders-table" id="mobile-history-orders-table-head">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Instr.</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Profit/Losses</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <ul id="mobile-history-orders-table" class="mobile-orders-table">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="pills-account" role="tabpanel" aria-labelledby="pills-account-tab" tabindex="0">
+                    <div>
+                        <ul class="nav nav-tabs" id="myAccountTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="mobile-information-tab" data-bs-toggle="tab" data-bs-target="#mobile-information-tab-pane" type="button" role="tab" aria-controls="mobile-information-tab-pane" aria-selected="true">INFORMATION</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="mobile-balance-tab" data-bs-toggle="tab" data-bs-target="#mobile-balance-tab-pane" type="button" role="tab" aria-controls="mobile-balance-tab-pane" aria-selected="false">BALANCE</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="orderTabContent">
+                            <div class="tab-pane fade show active" id="mobile-information-tab-pane" role="tabpanel" aria-labelledby="mobile-information-tab" tabindex="0">
+                                <div class="my-account-item-container">
+                                    <h2 class="my-account-item-header">Personal information</h2>
+                                    <div class="my-account-item-content">
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Name:</span>
+                                            <span class="my-account-text right">Demo Demo</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">ID: </span>
+                                            <span class="my-account-text right">5000011</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Account Type:</span>
+                                            <span class="my-account-text right">Demo Account</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Registration date:</span>
+                                            <span class="my-account-text right">12/19/2022 12:16:13</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="my-account-item-container">
+                                    <h2 class="my-account-item-header">Trading information</h2>
+                                    <div class="my-account-item-content">
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Currency:</span>
+                                            <span class="my-account-text right">EUR</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Leverage:</span>
+                                            <span class="my-account-text right">1:200</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Stop out:</span>
+                                            <span class="my-account-text right">20</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Profit/Losses:</span>
+                                            <span class="my-account-text right">25</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="logout-button-container">
+                                    <button class="btn btn-sm btn-outline-secondary mobile-table-collapse-btn new-chart">Log out</button>
+                                </div>
+
+                                <div class="version-container">
+                                    Version: 1.5.8
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="mobile-balance-tab-pane" role="tabpanel" aria-labelledby="mobile-balance-tab" tabindex="0">
+                                <div class="my-account-item-container">
+                                    <h2 class="my-account-item-balance">Balance : <span class="bid">€0.00</span>
+                                    </h2>
+                                    <div class="my-account-item-content">
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Equity:</span>
+                                            <span class="my-account-text right">€1,025.12</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Profit/Losses:</span>
+                                            <span class="my-account-text right">25</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Margin:</span>
+                                            <span class="my-account-text right">371.56</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Free:</span>
+                                            <span class="my-account-text right">653.61</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Level:</span>
+                                            <span class="my-account-text right">275.81%</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Bonus:</span>
+                                            <span class="my-account-text right">0.00</span>
+                                        </div>
+                                        <div class="my-account-item">
+                                            <span class="my-account-text left">Credit:</span>
+                                            <span class="my-account-text right">1,000.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="deposit-button-container">
+                                    <button class="btn btn-sm btn-outline-secondary mobile-table-collapse-btn new-chart">DEPOSIT</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom navigation -->
+                <ul class="nav nav-pills mobile-navigation" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-quotes-tab" data-bs-toggle="pill" data-bs-target="#pills-quotes" type="button" role="tab" aria-controls="pills-quotes" aria-selected="true">QUOTES</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-charts-tab" data-bs-toggle="pill" data-bs-target="#pills-charts" type="button" role="tab" aria-controls="pills-charts" aria-selected="false" onclick="window.dispatchEvent(new Event('resize'))">CHARTS</button>
+                    </li>
+                        <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-orders-tab" data-bs-toggle="pill" data-bs-target="#pills-orders" type="button" role="tab" aria-controls="pills-orders" aria-selected="false">ORDERS</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-account-tab" data-bs-toggle="pill" data-bs-target="#pills-account" type="button" role="tab" aria-controls="pills-account" aria-selected="false">MY ACCOUNT</button>
+                    </li>
+                </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- /Mobile views -->
+
+    <!-- Table popover html -->
+    <div hidden>
+        <div id="popover-content">
+            <a class="popover-close" onclick="closePopover(event)"></a>
+            <div class="popover-content-container">
+                <div class="form-check form-switch new-order-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">By price / by points</label>
+                </div>
+                <div class="form-check form-switch new-order-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Set Take / Profit</label>
+                </div>
+                <div class="quick-trading-value-container" id="symbol-values-input">
+                    <div class="symbol-text-container">
+                        <input id="quick-trading-value-input" value="0.01"/>
+                    </div>
+                    <div class="quick-trading-buttons-container">
+                        <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                        <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                    </div>
+                </div>
+            </div>
+            <div class="popover-content-container">
+                <div class="form-check form-switch new-order-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Set Stop / Loss</label>
+                </div>
+                <div class="quick-trading-value-container" id="symbol-values-input">
+                    <div class="symbol-text-container">
+                        <input id="quick-trading-value-input" value="0.01"/>
+                    </div>
+                    <div class="quick-trading-buttons-container">
+                        <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                        <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                    </div>
+                </div>
+            </div>
+            <div class="popover-content-container">
+                <button class="new-pending-order-button">PLACE PENDING ORDER</button>
+            </div>
+        </div>
+    </div>
+    <!-- /Table popover html -->
+
+    <!-- New order Modal -->
+    <div class="modal fade" id="newOrderModal" tabindex="-1" aria-labelledby="newOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content new-order-modal-content">
+                <a class="new-order-close-modal" data-bs-dismiss="modal"></a>
+                <ul class="nav nav-pills mb-3 new-order-tabs-container" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-new-market-tab" data-bs-toggle="pill" data-bs-target="#pills-new-market" type="button" role="tab" aria-controls="pills-new-market" aria-selected="true">NEW MARKET ORDER</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-new-pending-tab" data-bs-toggle="pill" data-bs-target="#pills-new-pending" type="button" role="tab" aria-controls="pills-new-pending" aria-selected="false">NEW PENDING ORDER</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-new-market" role="tabpanel" aria-labelledby="pills-new-market-tab" tabindex="0">
+                        <div class="new-order-tab-content-wrapper">
+                            <div class="tab-order-heading">
+                                <img  src="./images/flags/default.png"/>
+                            </div>
+                            <div class="new-order-stats-container">
+                                <div class="new-order-stats left">
+                                    <span>Margin: <strong>0</strong></span>
+                                </div>
+                                <div class="new-order-stats right">
+                                    <span>Point: <strong>0</strong></span>
+                                </div>
+                            </div>
+                            <div class="new-order-stats-container">
+                                <div class="new-order-stats left">
+                                    <span>Contract size: <strong>0.01</strong></span>
+                                </div>
+                                <div class="new-order-stats right">
+                                    <span>Trade volume: <strong>0.01</strong></span>
+                                </div>
+                            </div>
+                            <div class="symbol-dropdown-row">
+                                <div class="dropdown drop-start symbol-dropdown-wrapper">
+                                    <div type="button" class="symbol-input-container" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,10">
+                                        <div class="symbol-text-container">
+                                            <label>SYMBOL</label>
+                                            <span>USDJPN</span>
+                                        </div>
+                                        <button class="dropdown-toggle symbol-dropdown-trigger">
+                                        </button>
+                                    </div>
+                                    <ul class="dropdown-menu symbol-dropdown-container">
+                                        <li role="dropdown-item">
+                                            <a href="#">USDJPN</a>
+                                        </li>
+                                        <li role="dropdown-item">
+                                            <a href="#">AUDCAD</a>
+                                        </li>
+                                        <li role="dropdown-item">
+                                            <a href="#">EURUSD</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="quick-trading-value-container" id="symbol-values-input">
+                                    <div class="symbol-text-container">
+                                        <label>VOLUME</label>
+                                        <input id="quick-trading-value-input" value="0.01"/>
+                                    </div>
+                                    <div class="quick-trading-buttons-container">
+                                        <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                                        <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="symbol-dropdown-row">
+                                <div>
+                                    <div class="form-check form-switch new-order-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">Set Stop / Loss</label>
+                                    </div>
+                                    <div class="quick-trading-value-container" id="symbol-values-input">
+                                        <div class="symbol-text-container">
+                                            <input id="quick-trading-value-input" value="0.01"/>
+                                        </div>
+                                        <div class="quick-trading-buttons-container">
+                                            <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                                            <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-check form-switch new-order-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">Set Take / Profit</label>
+                                    </div>
+                                    <div class="quick-trading-value-container" id="symbol-values-input">
+                                        <div class="symbol-text-container">
+                                            <input id="quick-trading-value-input" value="0.01"/>
+                                        </div>
+                                        <div class="quick-trading-buttons-container">
+                                            <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                                            <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="symbol-dropdown-row">
+                                <div>
+                                    <div class="form-check form-switch new-order-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">By price / by points</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="new-order-buttons-container">
+                            <button class="new-order-buttons sell">Sell</button>
+                            <button class="new-order-buttons buy">Buy</button>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-new-pending" role="tabpanel" aria-labelledby="pills-new-pending-tab" tabindex="0">
+                        <div class="new-order-tab-content-wrapper">
+                            <div class="new-pending-order-inputs-container">
+                                <div class="symbol-dropdown-row">
+                                    <div class="dropdown drop-start symbol-dropdown-wrapper">
+                                        <div type="button" class="symbol-input-container" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,10">
+                                            <div class="symbol-text-container">
+                                                <label>SYMBOL</label>
+                                                <span>USDJPN</span>
+                                            </div>
+                                            <button class="dropdown-toggle symbol-dropdown-trigger">
+                                            </button>
+                                        </div>
+                                        <ul class="dropdown-menu symbol-dropdown-container">
+                                            <li role="dropdown-item">
+                                                <a href="#">USDJPN</a>
+                                            </li>
+                                            <li role="dropdown-item">
+                                                <a href="#">AUDCAD</a>
+                                            </li>
+                                            <li role="dropdown-item">
+                                                <a href="#">EURUSD</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropdown drop-start symbol-dropdown-wrapper">
+                                        <div type="button" class="symbol-input-container" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,10">
+                                            <div class="symbol-text-container">
+                                                <label>TYPE</label>
+                                                <span>Buy Limit</span>
+                                            </div>
+                                            <button class="dropdown-toggle symbol-dropdown-trigger">
+                                            </button>
+                                        </div>
+                                        <ul class="dropdown-menu symbol-dropdown-container">
+                                            <li role="dropdown-item">
+                                                <a href="#">Buy Limit</a>
+                                            </li>
+                                            <li role="dropdown-item">
+                                                <a href="#">Sell Limit</a>
+                                            </li>
+                                            <li role="dropdown-item">
+                                                <a href="#">Buy Stop</a>
+                                            </li>
+                                            <li role="dropdown-item">
+                                                <a href="#">Sell Stop</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="symbol-dropdown-row">
+                                    <div>
+                                        <div class="quick-trading-value-container" id="symbol-values-input">
+                                            <div class="symbol-text-container">
+                                                <label>VOLUME</label>
+                                                <input id="quick-trading-value-input" value="0.01"/>
+                                            </div>
+                                            <div class="quick-trading-buttons-container">
+                                                <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                                                <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="quick-trading-value-container" id="symbol-values-input">
+                                            <div class="symbol-text-container">
+                                                <label>AT PRICE</label>
+                                                <input id="quick-trading-value-input" value="0.01"/>
+                                            </div>
+                                            <div class="quick-trading-buttons-container">
+                                                <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                                                <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="symbol-dropdown-row">
+                                <div>
+                                    <div class="form-check form-switch new-order-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">Set Stop / Loss</label>
+                                    </div>
+                                    <div class="quick-trading-value-container" id="symbol-values-input">
+                                        <div class="symbol-text-container">
+                                            <input id="quick-trading-value-input" value="0.01"/>
+                                        </div>
+                                        <div class="quick-trading-buttons-container">
+                                            <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                                            <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-check form-switch new-order-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">Set Take / Profit</label>
+                                    </div>
+                                    <div class="quick-trading-value-container" id="symbol-values-input">
+                                        <div class="symbol-text-container">
+                                            <input id="quick-trading-value-input" value="0.01"/>
+                                        </div>
+                                        <div class="quick-trading-buttons-container">
+                                            <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
+                                            <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="symbol-dropdown-row">
+                                <div>
+                                    <div class="form-check form-switch new-order-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">By price / by points</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="new-order-buttons-container">
+                            <button class="new-pending-order-button">PLACE PENDING ORDER</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of New order modal -->
+
+
+        <!-- mobile settings Modal -->
+        <div class="modal fade" id="mobileSettings" tabindex="-1" aria-labelledby="mobileSettings" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content new-order-modal-content">
+                <a class="new-order-close-modal" data-bs-dismiss="modal"></a>
+                    <h3>Settings</h3>
+                    <div class="dropdown drop-start mobile-settings-input">
+                        <button class="btn btn-sm btn-outline-secondary mobile-settings-dropdown dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+                            <span>
+                                <img src="./images/lang/EN.png" alt="">
+                                <span>EN</span>
+                            </span>
+                        </button>
+                        <div class="dropdown-menu mobile-chart-control-dropdown-container">
+                            <ul id="mobile-chart-control-dropdown" class="mobile-language-dropdown">
+                                <li role="dropdown-item">
+                                    <a class="dropdown-item active" href="#">
+                                        <img class="mobile-flag" src="./images/lang/EN.png">
+                                        <span class="mobile-flag-text">EN</span>
+                                    </a>
+                                </li>
+                                <li role="dropdown-item">
+                                    <a class="dropdown-item active" href="#">
+                                        <img class="mobile-flag" src="./images/lang/AR.png">
+                                        <span class="mobile-flag-text">AR</span>
+                                    </a>
+                                </li>
+                                <li role="dropdown-item">
+                                    <a class="dropdown-item active" href="#">
+                                        <img class="mobile-flag" src="./images/lang/DE.png">
+                                        <span class="mobile-flag-text">DE</span>
+                                    </a>
+                                </li>
+                                <li role="dropdown-item">
+                                    <a class="dropdown-item active" href="#">
+                                        <img class="mobile-flag" src="./images/lang/ES.png">
+                                        <span class="mobile-flag-text">ES</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="dropdown drop-start mobile-settings-input">
+                        <button class="btn btn-sm btn-outline-secondary mobile-settings-dropdown dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
+                            Blue
+                        </button>
+                        <div class="dropdown-menu mobile-chart-control-dropdown-container">
+                            <ul id="mobile-chart-control-dropdown" class="mobile-theme-dropdown">
+                                <li role="dropdown-item">
+                                    <a class="dropdown-item active" href="#">Blue</a>
+                                </li>
+                                <li role="dropdown-item">
+                                    <a class="dropdown-item" href="#">Dark</a>
+                                </li>
+                                <li role="dropdown-item">
+                                    <a class="dropdown-item" href="#">Light</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of mobile settings modal -->
+
+</div>
+{% endblock %}
