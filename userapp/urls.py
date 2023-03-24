@@ -10,4 +10,5 @@ urlpatterns = [
     path("get/order-data", views.getOrderData),
     path("save/new-order", views.saveNewOrder),
     path("login", views.Login),
+    path("logout", views.LogoutView),
 ]

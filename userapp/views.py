@@ -239,3 +239,8 @@ def saveNewOrder(request):
         return HttpResponse([{"msg":"success"}], content_type='application/json')
     else:
         return HttpResponse([{"msg":"No Data Provided"}], content_type='application/json')
+    
+def LogoutView(request):
+    logout(request)
+
+    return redirect('/login')
