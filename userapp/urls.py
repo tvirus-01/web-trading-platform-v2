@@ -3,6 +3,7 @@ from userapp import views
 
 urlpatterns = [
     path("", views.userDashboard),
+    path("dashboard", views.userDashboard),
     path("get/symbol-data", views.leftPanelData),
     path("get/history-data", views.getHistoryData),
     path("get/current-data", views.getCurrentData),
