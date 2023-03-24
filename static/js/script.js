@@ -153,12 +153,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
  // Initilialize data, these are the functions that you'll want to call when you want to update the data
- fillActiveTable();
+ setInterval(() => {
+    fillActiveTable();
+ }, 1000);
  fillPendingTable();
  fillHistoryTable();
  leftPanelTableData();
- addChartControl('USDJPY');
- addChartControl('USDJPY');
  fillChartControlForex();
  leftPanelMobileTableData();
  fillMobileChartControl();
@@ -201,43 +201,56 @@ function fillActiveTable(){
  const table = document.getElementById('bottom-active-panel-table');
  const tableHead = document.getElementById('bottom-active-panel-table-head');
  const activeButton = document.getElementById('pills-active-tab');
- const emptyTable = `<div class="empty-table-container">
- <div class="empty-table"></div>
- <span>There are no active orders yet</span>
- </div>`;
- const tableData = ActiveTableData?.reverse()?.map(datapoint => {
-     const date = new Date(datapoint.time * 1000).toISOString()
-     const time = date.split("T")[1].split(".")[0];
-     return (`
-     <tr class="bottom-table-row">
-         <td><img src='./images/flags/${datapoint.symbol}.png' /></td>
-         <td>${datapoint.id}</td>
-         <td>${datapoint.symbol}</td>
-         <td>${datapoint.type}</td>
-         <td>${datapoint.amount}</td>
-         <td>${datapoint.tradeVolume}</td>
-         <td>${datapoint.openRate}</td>
-         <td>${date.split("T")[0].split("-").join("/")} | ${time}</td>
-         <td>${datapoint.SL}</td>
-         <td>${datapoint.TP}</td>
-         <td>€ ${datapoint.swap}</td>
-         <td>€ ${datapoint.commission}</td>
-         <td>€ ${datapoint.profitLoses}</td>
-         <td>
-             <button id="table-popover" class="table-options-btn" role="button" data-bs-toggle="popover" data-bs-placement="top">
-             </button>
-         </td>
-         <td>
-             <div class="table-close-btn">
-                 <span>${datapoint.close}</span>
-             </div>
-         </td>
-     </tr>
-     `)}).join('');
-     activeButton.innerHTML =  `ACTIVE (${ActiveTableData.length})`
-     tableHead.innerHTML = ActiveTableData.length === 0 ? "" : tableHead.innerHTML;
-     table.innerHTML = ActiveTableData.length === 0 ? emptyTable : tableData;
-    
+
+ fetch(
+    "/get/order-data?order_type=active"
+ )
+ .then(r => r.json())
+ .then(r => {
+    const ActiveTableData = r;
+    const emptyTable = `<div class="empty-table-container">
+    <div class="empty-table"></div>
+    <span>There are no active orders yet</span>
+    </div>`;
+    const tableData = ActiveTableData?.reverse()?.map(datapoint => {
+        const date = new Date(datapoint.time * 1000).toISOString()
+        const time = date.split("T")[1].split(".")[0];
+        if(datapoint.profitLoses < 0){
+            var profit = '<td style="color: #dc3545 !important;">€ '+datapoint.profitLoses+'</td>';
+        }else if(datapoint.profitLoses > 0){
+            var profit = '<td style="color: #198754 !important;">€ '+datapoint.profitLoses+'</td>';
+        }else{
+            var profit = '<td style="color: #6c757d !important;">€ '+datapoint.profitLoses+'</td>';
+        }
+        return (`
+        <tr class="bottom-table-row">
+            <td><img src='./static/images/flags/${datapoint.symbol}.png' /></td>
+            <td>${datapoint.id}</td>
+            <td>${datapoint.symbol}</td>
+            <td>${datapoint.type}</td>
+            <td>${datapoint.amount}</td>
+            <td>${datapoint.openRate}</td>
+            <td>${date.split("T")[0].split("-").join("/")} | ${time}</td>
+            <td>${datapoint.SL}</td>
+            <td>${datapoint.TP}</td>
+            <td>€ ${datapoint.swap}</td>
+            <td>€ ${datapoint.commission}</td>
+            ${profit}
+            <td>
+                <button id="table-popover" class="table-options-btn" role="button" data-bs-toggle="popover" data-bs-placement="top">
+                </button>
+            </td>
+            <td>
+                <div class="table-close-btn">
+                    <span>${datapoint.close}</span>
+                </div>
+            </td>
+        </tr>
+        `)}).join('');
+        activeButton.innerHTML =  `ACTIVE (${ActiveTableData.length})`
+        tableHead.innerHTML = ActiveTableData.length === 0 ? "" : tableHead.innerHTML;
+        table.innerHTML = ActiveTableData.length === 0 ? emptyTable : tableData;
+ })    
  }
 
 // Fills the data for the pending table
@@ -353,24 +366,65 @@ function fillHistoryTable(){
 }
 
 // Fills the data on the left panel
-function leftPanelTableData(){
- const table = document.getElementById('forex');
- const tableData = MockedData.reverse().map(datapoint => {
-     const date = new Date(datapoint.time * 1000).toISOString()
-     const time = date.split("T")[1].split(".")[0];
-     return (`
-     <div class="left-panel-table-row">
-         <div style="display:flex">
-             <span class="favourite"></span>
-             <span><img src='./images/flags/${datapoint.symbol}.png' /></span>
-             <span>${datapoint.symbol}</span>
-         </div>
-         <span class="bid">${datapoint.open}</span>
-         <span class="ask">${datapoint.close}</span>
-         <span class="info"></span>
-     </div>
- `)}).join('');
- table.innerHTML = tableData;
+function leftPanelTableData(filter_type="all"){
+    const tableForex = document.getElementById('forex');
+    const tableCrypto = document.getElementById('crypto');
+
+    if(filter_type === "forex"){
+        $(tableForex).show();
+        $(tableCrypto).hide();
+        limit = 100;
+    }else if(filter_type === "crypto"){
+        $(tableForex).hide();
+        $(tableCrypto).show();
+        limit = 100;
+    }else{
+        $(tableForex).show();
+        $(tableCrypto).show();
+        limit = 20;
+    }
+
+    fetch(
+        "/get/symbol-data"
+    )
+    .then(r => r.json())
+    .then(r => {
+        const tableDataFx = r['forex_data'].slice(0, limit).map(datapoint => {
+            const date = new Date(datapoint.time * 1000).toISOString();
+            const time = date.split("T")[1].split(".")[0];
+            return (`
+                <div class="left-panel-table-row" symbol="${datapoint.symbol}" type="forex">
+                    <div style="display:flex">
+                        <span class="favourite"></span>
+                        <span><img src='./static/images/flags/${datapoint.symbol}.png' onerror="this.onerror=null; this.src='./static/images/flags/default-1.png'" /></span>
+                        <span>${datapoint.symbol}</span>
+                    </div>
+                    <span class="bid" id="bid_${datapoint.id}">${datapoint.bid}</span>
+                    <span class="ask" id="ask_${datapoint.id}">${datapoint.ask}</span>
+                    <span class="info"></span>
+                </div>
+            `)
+        }).join('');
+        tableForex.innerHTML = tableDataFx;
+
+        const tableDataCrypto = r['crypto_data'].slice(0, 20).map(datapoint => {
+            const date = new Date(datapoint.time * 1000).toISOString();
+            const time = date.split("T")[1].split(".")[0];
+            return (`
+                <div class="left-panel-table-row" symbol="${datapoint.symbol}" type="crypto">
+                    <div style="display:flex">
+                        <span class="favourite"></span>
+                        <span><img src='./static/images/flags/${datapoint.symbol}.png' onerror="this.onerror=null; this.src='./static/images/flags/default-1.png'" /></span>
+                        <span>${datapoint.symbol}</span>
+                    </div>
+                    <span class="bid" id="bid_${datapoint.id}">${datapoint.bid}</span>
+                    <span class="ask" id="ask_${datapoint.id}">${datapoint.ask}</span>
+                    <span class="info"></span>
+                </div>
+            `)
+        }).join('');
+        tableCrypto.innerHTML = tableDataCrypto;
+    });
 }
 
 function leftPanelMobileTableData(){
@@ -733,21 +787,25 @@ function fillMobileChartControl(){
 }
 
 // Adds a new chart control button to the chart control bar
-function addChartControl(Symbol){
+function addChartControl(Symbol, change=false){
  const normalizedSymbol = Symbol.toUpperCase();
  const chartControl = document.getElementById('chart-control-button-wrapper');
- const controlButton = document.createElement('button');
- controlButton.classList.add('btn', "btn-sm", "btn-outline-secondary");
- controlButton.children.length === 1 ?
- controlButton.innerHTML = `
-                             <img src="./images/flags/${normalizedSymbol}.png" /> 
-                             <span>${normalizedSymbol}</span>` 
-                             :
- controlButton.innerHTML = `
- <a class="deleteChartControl" onClick="removeChartControl(event)">X</a>
- <img src="./images/flags/${normalizedSymbol}.png" /> 
- <span>${normalizedSymbol}</span>` 
- chartControl.appendChild(controlButton);
+
+ if(change === true){
+    document.getElementsByClassName('chart-control-btn')[0].getElementsByTagName("span")[0].innerHTML = normalizedSymbol;
+ }else{
+    const controlButton = document.createElement('button');
+    controlButton.classList.add('btn', "btn-sm", "btn-outline-secondary", "chart-control-btn");
+    controlButton.children.length === 1 ?
+    controlButton.innerHTML = `
+                                <img src="./images/flags/${normalizedSymbol}.png" /> 
+                                <span>${normalizedSymbol}</span>` 
+                                :
+    controlButton.innerHTML = `
+    <a class="deleteChartControl" onClick="removeChartControl(event)">X</a> 
+    <span>${normalizedSymbol}</span>` 
+    chartControl.appendChild(controlButton);
+ }
 }
 
 // Deletes the element that is clicked on the chart control
@@ -795,24 +853,6 @@ function fillChartControlForex(){
 }
 
 // Array of data used by the active table
-const ActiveTableData = Array(20).fill().map((_, i) => ({
- symbol: 'EURUSD',
- id: i,
- type: "Sell",
- amount: 0.01,
- tradeVolume: Math.floor(Math.random() * 100), 
- openRate: Math.floor(Math.random() * 10),
- SL: 0.0000,
- TP: 0.0000,
- swap: 0.0000,
- commission: 0.0000,
- profitLoses: 0.0000,
- time: Math.floor(Date.now() / 1000) - (86400 * i),
- open: Math.floor(Math.random() * 100),
- high: Math.floor(Math.random() * 100),
- low: Math.floor(Math.random() * 100),
- close: Math.floor(Math.random() * 100),
-}))
 
 // Array of data used by the pending table
 const PendingTableData = Array(0).fill(0).map((_, i) => ({

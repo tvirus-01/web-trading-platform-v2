@@ -4,3 +4,5 @@ staticfiles-cdn
 *.sqlite3
 node_modules
 __pycache__
+archive
+*.db

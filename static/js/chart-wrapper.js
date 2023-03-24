@@ -118,6 +118,10 @@ const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep"
 				},
 			})
             this.chartElement.seriesOptions = {
+				priceFormat: {
+					minMove: 0.00001,
+					precision: 5,
+				},
                 wickUpColor: 'rgb(42,165,63)',
                 upColor: 'rgb(42,165,63)',
                 wickDownColor: 'rgb(218,72,48)',
@@ -126,7 +130,7 @@ const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep"
             }
 
 			// Chart legend logic
-			const symbolName = 'AUDNZD';
+			const symbolName = window.activeSymbol;
 			const legend = document.getElementsByClassName('legend-container')[0];
 			const firstRow = document.createElement('h2');
 			const favouriteButton = document.createElement('span');
@@ -210,8 +214,27 @@ const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep"
 			const candlestickTypeData = ['candlestick', 'bar'].includes(
 				this.chartElement.type,
 			);
-			const newData = generateSampleData(candlestickTypeData);
-			this.chartElement.data = newData;
+
+			var newData = '';
+			if (typeof window.chart_data === 'undefined'){
+				newData = Array();
+			}else{
+				newData = window.chart_data;
+			}
+
+			const lineData = newData.map(datapoint => ({
+				time: datapoint.time,
+				value: (datapoint.close + datapoint.open) / 2,
+			}));
+			
+			this.chartElement.type = window.chartType;
+			if(this.chartElement.type === "candlestick" || this.chartElement.type === "bar"){
+				this.chartElement.data = newData;
+			}else if(this.chartElement.type === "line" || this.chartElement.type === "area"){
+				this.chartElement.data = lineData;
+			}
+			// console.log(this.chartElement.type);
+			// console.log(newData);
 			if (this.chartElement.type === 'baseline') {
 				const average =
 					newData.reduce((s, c) => s + c.value, 0) / newData.length;
@@ -233,7 +256,8 @@ const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep"
 				'candlestick',
 				'bar',
 			].filter(t => t !== this.chartElement.type);
-			this.chartElement.type = types.filter((types) => types === type)[0];
+			// this.chartElement.type = types.filter((types) => types === type)[0];
+			this.chartElement.type = window.chartType;
             switch(this.chartElement.type){
                 case 'area': this.chartElement.seriesOptions = {
                     lineColor: 'white',

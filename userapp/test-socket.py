@@ -1,22 +1,15 @@
-import socketio
+import requests
 
-sio = socketio.Client()
-api_key = "pzNMhsR0npxGNtToHR5jfPDN"
-currency_ids = '1,2,3'
+r = requests.get("https://fcsapi.com/api-v3/crypto/list?type=forex&access_key=pzNMhsR0npxGNtToHR5jfPDN")
 
-@sio.event
-def connect():
-    print("connected")
+data = r.json()['response']
 
-@sio.event
-def my_message(data):
-    print('message received with ', data)
-    sio.emit('heartbeat', api_key)
-    sio.emit('real_time_join', currency_ids)
+i = 1
+for x in data:
+    print(x)
+    i += 1
 
-@sio.event
-def disconnect():
-    print('disconnected from server')
+    if i == 500:
+        break
 
-sio.connect('ws://fcsapi.com/v3/?EIO=3&transport=websocket')
-sio.wait()
+print(i)

@@ -14,3 +14,4 @@ requests-futures==1.0.0
 sqlparse==0.4.3
 tzdata==2022.7
 urllib3==1.26.14
+yfinance

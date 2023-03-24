@@ -783,6 +783,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     justify-content: space-between;
     align-items: center;
     color: white;
+    cursor: pointer;
 }
 
 .left-panel-table-row span{
@@ -823,8 +824,20 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     color: #2bab3f !important;
 }
 
+.bid-red{
+    color: #da4830 !important;
+}
+
 .ask{
     color: #da4830 !important;
+}
+
+.ask-green{
+    color: #2bab3f !important;
+}
+
+.ask-bid-white{
+    color: #f0f1cb !important;
 }
 
 .info{
@@ -1554,9 +1567,18 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     left: 0;
     position: absolute;
     content: "";
-    background: url("./images/sprites.png") -9999px -9999px;
+    background: url("./images/sprites.png") -1000px -200px;
     background-position: -60px -150px;
     opacity: .6;
+}
+
+.interval-btn{
+    color: #c5ccd3;
+    font-size: 11px;
+}
+.interval-btn::after{
+    background: none;
+    color: #607284;
 }
 
 #chart-cursor-btn::after{
@@ -2187,7 +2209,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 
 .chart-bottom-orders{
     width: 100%;
-    padding: 1rem;
+    padding: 0px 1rem;
 }
 
 .chart-bottom-table{
@@ -3267,7 +3289,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
         height: 32%;
     }
     .chart-bottom-orders{
-        padding: 1rem 0px;
+        padding: 0.5rem 0px;
     }
     .chart-bottom-table{
         font-size: 12px;

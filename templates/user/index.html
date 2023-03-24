@@ -1,5 +1,5 @@
-{% extends 'layout.html' %}
-
+{% extends 'user/layout.html' %}
+{% load static %}
 {% block content %}
 <div class="app-container">
 <nav class="nav-bar hide-mb">
@@ -11,14 +11,14 @@
             <span>Equity: <strong>952.87</strong></span>
             <span>Balance: <strong>€ 0.00</strong></span>
             <a class="btn-deposit">
-                <img src="./images/deposit-icon.svg">
+                <img src="{% static '/images/deposit-icon.svg' %}">
                 DEPOSIT
             </a>
         </div>
         <div>
             <div class="dropdown-menu-end account-dropdown-wrapper">
                 <button class="btn btn-secondary dropdown-toggle account-dropdown-btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="./images/account-icon.svg" alt="account-icon">
+                    <img src="{% static '/images/account-icon.svg' %}" alt="account-icon">
                     Demo Account
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" id="dropdown-account" aria-labelledby="dropdownMenuButton">
@@ -42,14 +42,14 @@
         <div class="language-dropdown-container">
             <div class="dropdown-center">
                 <button class="language-button dropdown-toggle" type="button" id="languageDropdownButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent" data-bs-offset="0,10">
-                    <img src="./images/lang/EN.png">EN
+                    <img src="{% static '/images/lang/EN.png' %}">EN
                 </button>
                 <div class="dropdown-menu" id="languageDropdownMenu" aria-labelledby="languageDropdownButton">
                     <a class="dropdown-item" href="#">
-                        <img src="./images/lang/AR.png">AR
+                        <img src="{% static '/images/lang/AR.png' %}">AR
                         </a>
                     <a class="dropdown-item" href="#">
-                    <img src="./images/lang/ES.png">ES
+                    <img src="{% static '/images/lang/ES.png' %}">ES
                     </a>
                 </div>
             </div>
@@ -92,7 +92,7 @@
 </nav>
 <nav class="nav-bar hide-desktop">
     <div class="navbrand mobile">
-        <img src="./images/logo.png" alt="mobile header logo images">
+        <img src="{% static '/images/logo.png' %}" alt="mobile header logo images">
     </div>
     <div class="navbar-right">
         <div class="dropdown">
@@ -130,18 +130,18 @@
                 </div>
                 <div class="left-panel-input-container">
                     <div class="chart-bottom-search aside-small-search">
-                        <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary" placeholder="Search" />
+                        <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary" placeholder="Search" id="left-panel-search" />
                     </div>
                     <div class="dropdown-center chart-bottom-item small-left-panel-dropdown-container">
-                        <button class="btn btn-sm btn-outline-secondary  small-bottom-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                        <button class="btn btn-sm btn-outline-secondary  small-bottom-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent" id="left-panel-dropdown-select-container" val="all">
                             ALL
                         </button>
                         <ul class="dropdown-menu quick-trading-values-selector">
-                            <li role="dropdown-item"><a href="#">ALL</a></li>
-                            <li role="dropdown-item"><a href="#">Forex</a></li>
-                            <li role="dropdown-item"><a href="#">Cfd</a></li>
-                            <li role="dropdown-item"><a href="#">Metals</a></li>
-                            <li role="dropdown-item"><a href="#">Crypto</a></li>
+                            <li role="dropdown-item"><a href="#" class="left-panel-dropdown-select" select_type="all" selected="">ALL</a></li>
+                            <li role="dropdown-item"><a href="#" class="left-panel-dropdown-select" select_type="forex">Forex</a></li>
+                            <!-- <li role="dropdown-item"><a href="#">Cfd</a></li>
+                            <li role="dropdown-item"><a href="#">Metals</a></li> -->
+                            <li role="dropdown-item"><a href="#" class="left-panel-dropdown-select" select_type="crypto">Crypto</a></li>
                         </ul>
                     </div>
                 </div>
@@ -158,6 +158,10 @@
                             </table>
                             <div class="left-panel-table-dropdown-wrapper">
                             <div class="left-panel-table-dropdown-container">
+                                <div class="left-panel-data-container collapse show" id="search_result_container" style="display: none;">
+                                    <ul id="forex-table" class="left-panel-table-row">
+                                    </ul>
+                                </div>
                                 <button class="left-panel-table-toggle dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#forex" aria-expanded="true" aria-controls="forex">
                                     Forex
                                 </button>
@@ -165,7 +169,7 @@
                                     <ul id="forex-table" class="left-panel-table-row">
                                     </ul>
                                 </div>
-                                <button class="left-panel-table-toggle dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#cfd" aria-expanded="true" aria-controls="cfd">
+                                <!-- <button class="left-panel-table-toggle dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#cfd" aria-expanded="true" aria-controls="cfd">
                                     Cfd
                                 </button>
                                 <div class="left-panel-data-container collapse" id="cfd">
@@ -178,7 +182,7 @@
                                 <div class="left-panel-data-container collapse" id="metals">
                                     <ul id="metals-table" class="left-panel-table-row">
                                     </ul>
-                                </div>
+                                </div> -->
                                 <button class="left-panel-table-toggle dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#crypto" aria-expanded="true" aria-controls="crypto">
                                     Crypto
                                 </button>
@@ -204,7 +208,7 @@
                                 <div class="new-chart-control-container">
                                 <div class="new-chart-control-header">
                                     <div class="chart-bottom-search chart-bottom-item">
-                                        <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary search-input" placeholder="Search">
+                                        <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary search-input" id="control-panel-search" placeholder="Search">
                                     </div>
                                     <ul class="nav nav-pills mb-3 new-chart-control-tabscontainer" id="pills-tab" role="tablist">
                                         <li class="nav-item" role="presentation">
@@ -295,9 +299,9 @@
                         </div>
                     </div>
                     <div id="quick-trading">
-                        <button id="quick-trading-sell">
+                        <button id="quick-trading-sell" class="quick-trade-now" type="sell">
                             <span>SELL </span>
-                            <span id="quick-trding-sell-value" class="quick-trading-value">0.696969</span>
+                            <span id="quick-trding-sell-value" class="quick-trading-value"></span>
                         </button>
                         <div class="dropdown-center quick-trading-value-container" id="quick-trading-value-counter">
                                 <input id="quick-trading-value-input" value="0.01"/>
@@ -321,9 +325,9 @@
                                 <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
                             </div>
                         </div>
-                        <button id="quick-trading-buy">
+                        <button id="quick-trading-buy" class="quick-trade-now" type="buy">
                             <span>BUY</span>
-                            <span id="quick-trding-buy-value" class="quick-trading-value">0.696969</span>
+                            <span id="quick-trding-buy-value" class="quick-trading-value"></span>
                         </button>
                         <button class="btn btn-primary btn-sm quick-trading-options-btn" type="button" data-bs-toggle="modal" data-bs-target="#newOrderModal"></button>
 
@@ -346,10 +350,10 @@
                             </button>
                             <div class="dropdown-menu chart-type-options">
                                 <div class="type-options-container">
-                                    <a class="change-type-button area" id="change-type-area">Area</a>
-                                    <a class="change-type-button line" id="change-type-line">Line</a>
-                                    <a class="change-type-button bar" id="change-type-bar">Bars</a>
-                                    <a class="change-type-button candle" id="change-type-candlestick">Candles</a>
+                                    <a class="change-type-button change-chart-type-btn area" id="change-type-area" val="area">Area</a>
+                                    <a class="change-type-button change-chart-type-btn line" id="change-type-line" val="line">Line</a>
+                                    <a class="change-type-button change-chart-type-btn bar" id="change-type-bar" val="bar">Bars</a>
+                                    <a class="change-type-button change-chart-type-btn candle" id="change-type-candlestick" val="candlestick">Candles</a>
                                 </div>
                             </div>
                         </div>
@@ -596,24 +600,21 @@
                         </div>
 
                         <div class="btn-group dropend">
-                            <button class="chart-type-btn" id="chart-time-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </button>
+                            <button class="chart-type-btn interval-btn" id="chart-time-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                             <div class="dropdown-menu chart-type-options">
                                 <div class="double-chart-container">
                                     <div class="type-options-container change-time-dropdown">
-                                        <a class="change-stats-button">5 seconds</a>
-                                        <a class="change-stats-button">1 minute</a>
-                                        <a class="change-stats-button">5 minutes</a>
-                                        <a class="change-stats-button">15 minutes</a>
-                                        <a class="change-stats-button">30 minutes</a>
-                                        <a class="change-stats-button last">1 hour</a>
+                                        <a class="change-stats-button" interval="1m">1 minute</a>
+                                        <a class="change-stats-button" interval="5m">5 minutes</a>
+                                        <a class="change-stats-button" interval="15m">15 minutes</a>
+                                        <a class="change-stats-button" interval="30m">30 minutes</a>
+                                        <a class="change-stats-button last" interval="1h">1 hour</a>
                                     </div>
                                     <div class="type-options-container change-time-dropdown last">
-                                        <a class="change-stats-button">4 hours</a>
-                                        <a class="change-stats-button">12 hours</a>
-                                        <a class="change-stats-button">1 day</a>
-                                        <a class="change-stats-button">1 week</a>
-                                        <a class="change-stats-button last">1 month</a>
+                                        <!-- <a class="change-stats-button" interval="12h">12 hours</a> -->
+                                        <a class="change-stats-button" interval="1d">1 day</a>
+                                        <a class="change-stats-button" interval="1wk">1 week</a>
+                                        <a class="change-stats-button last" interval="1mo">1 month</a>
                                     </div>
                                 </div>
                             </div>
@@ -672,7 +673,7 @@
                             <div class="chart-bottom-buttons-wrapper">
                                 <button class="btn btn-sm btn-outline-primary chart-bottom-item small-bottom-button" id="new-order-button" type="button" data-bs-toggle="modal" data-bs-target="#newOrderModal">NEW ORDER</button>
                                 <div class="chart-bottom-search chart-bottom-item">
-                                    <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary" placeholder="Search" />
+                                    <input autocomplete="off" type="text" id="bottom-panel-search" class="btn btn-sm input-outline-secondary" placeholder="Search" />
                                 </div>
                                 <div class="dropdown-center chart-bottom-item small-bottom-dropdown-container">
                                         <button class="btn btn-sm btn-outline-secondary  small-bottom-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
@@ -718,7 +719,7 @@
                                                 <th scope="col">Instrument</th>
                                                 <th scope="col">Type</th>
                                                 <th scope="col">Amount</th>
-                                                <th scope="col">Trade volume</th>
+                                                <!-- <th scope="col">Trade volume</th> -->
                                                 <th scope="col">Open rate</th>
                                                 <th scope="col">Open time</th>
                                                 <th scope="col">S/L</th>
@@ -833,7 +834,7 @@
                             </div>
                             <div class="left-panel-input-container">
                                 <div class="chart-bottom-search aside-small-search">
-                                    <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary" placeholder="Search" />
+                                    <input autocomplete="off" type="text"  class="btn btn-sm input-outline-secondary" placeholder="Search" />
                                 </div>
                             </div>
                             <div class="mobile-left-panel-quotes-container">
@@ -874,7 +875,7 @@
                         <div>
                             <div class="mobile-chart-legend-container">
                                 <span>1.44154</span>
-                                <img src="./images/flags/AUDCAD.png">
+                                <img src="{% static '/images/flags/AUDCAD.png' %}">
                                 <span>1.44154</span>
                             </div>
                             <div class="mobile-chart-type-container">
@@ -1186,7 +1187,7 @@
                     <div class="tab-pane fade show active" id="pills-new-market" role="tabpanel" aria-labelledby="pills-new-market-tab" tabindex="0">
                         <div class="new-order-tab-content-wrapper">
                             <div class="tab-order-heading">
-                                <img  src="./images/flags/default.png"/>
+                                <img  src="./static/images/flags/default.png"/>
                             </div>
                             <div class="new-order-stats-container">
                                 <div class="new-order-stats left">
