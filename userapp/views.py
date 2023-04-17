@@ -14,6 +14,7 @@ import time
 import string, random
 
 from userapp.models import *
+from userapp.sendEmails import *
 
 @login_required(login_url='/login')
 def userDashboard(request):
@@ -26,6 +27,108 @@ def userDashboard(request):
         'user_name': current_user.username,
     }
     return render(request, "user/index.html")
+
+def Register(request):
+    # sourcery skip: move-assign, reintroduce-else, remove-unnecessary-else
+    context = {'title': "Sign up"}
+    if request.user.is_authenticated:
+        return redirect("/dashboard")
+
+    if request.method == 'POST':
+        _process_user_signup(request, context)
+    return render(request, "register.html", context)
+
+
+def _process_user_signup(request, context):
+    first_name = request.POST['first_name']
+    last_name = request.POST['last_name']
+    user_email = request.POST['user_email']
+    phone = request.POST['phone_number']
+    country = request.POST['country']
+    referral_code = request.POST.get('referral_code', False)
+
+    user_name = ''.join(random.choices(string.digits, k=10))
+    password = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase + '@$^%&()|-+', k=16))
+    verification_code = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k=35))
+
+    if User.objects.filter(username=user_name).exists():
+        context['reg_err'] = "User with this username already exists"
+    elif User.objects.filter(email=user_email).exists():
+        context['reg_err'] = "User with this email already exists"
+    else:
+        print(first_name, last_name, phone)
+        user = User.objects.create_user(
+            username = user_name,
+            first_name = first_name,
+            last_name = last_name,
+            email = user_email,
+            password = password,
+            is_active = False,
+        )
+
+        user_info = UserData.objects.create(
+            user = user,
+            phone = phone,
+            country = country,
+            referral_code = referral_code,
+            verification_code = verification_code,
+        )
+
+        admin_emails = [
+            admin.email for admin in User.objects.filter(is_superuser=True)
+        ]
+        sendNewUserEmail(
+            first_name,
+            user_email,
+            user_name,
+            password,
+            verification_code
+        )
+        sendAdminEmailNewUser(
+            user_email,
+            user_name,
+            admin_emails,
+            first_name,
+            last_name,
+            phone,
+            country,
+            referral_code
+        )
+        saveNewAdminNotification(
+            user_email,
+            user_name
+        )
+        user.save()
+        user_info.save()
+
+        # new_user = authenticate(username=user_name, password=password)
+        # auth_login(request, new_user)
+
+        context['email_verification_sent'] = True
+
+def resetUserPass(request):  # sourcery skip: merge-dict-assign, move-assign
+    context = {'title': "Reset Password"}
+
+    if request.method == 'POST':
+        user_email = request.POST['user_email']
+        context['user_email'] = user_email
+
+        if chk_user := User.objects.filter(email=user_email):
+            userPassword = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase + '@$^%&()|-+', k=16))
+            chk_user[0].password = make_password(userPassword)
+
+            sendPasswordResetEmail(
+                chk_user[0].first_name,
+                user_email,
+                chk_user[0].username,
+                userPassword
+            )
+            chk_user[0].save()
+            context['reset_success'] = True
+
+        else:
+            context['user_not_found'] = True
+    return render(request, "reset-password.html", context)
 
 def Login(request):
     context = {'title': "Sign in", 'password_error': False}
@@ -244,3 +347,15 @@ def LogoutView(request):
     logout(request)
 
     return redirect('/login')
+
+def verifyUser(request, verification_code):
+    
+    if chk_vf := UserData.objects.filter(verification_code=verification_code):
+        cur_vf = UserData.objects.get(verification_code=verification_code)
+
+        cur_vf.user.is_active = True
+        cur_vf.user.save()
+
+        return redirect("/login?vns")
+    else:
+        return redirect("/login")

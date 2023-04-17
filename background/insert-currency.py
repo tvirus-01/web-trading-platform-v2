@@ -7,7 +7,9 @@ start_time = time.time()
 cur = conn.cursor()
 
 c_type = "forex"
-r = requests.get(f"https://fcsapi.com/api-v3/{c_type}/list?type={c_type}&access_key=pzNMhsR0npxGNtToHR5jfPDN")
+url = f"https://fcsapi.com/api-v3/{c_type}/list?type={c_type}&access_key=pzNMhsR0npxGNtToHR5jfPDN"
+print(url)
+r = requests.get(url)
 
 data = r.json()['response']
 

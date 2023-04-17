@@ -12,4 +12,7 @@ urlpatterns = [
     path("save/new-order", views.saveNewOrder),
     path("login", views.Login),
     path("logout", views.LogoutView),
+    path("register", views.Register),
+    path("reset-password", views.resetUserPass),
+    path("verify-account/<str:verification_code>", views.verifyUser),
 ]

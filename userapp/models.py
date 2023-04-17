@@ -59,3 +59,25 @@ class userTrades(models.Model):
 
     class Meta:
         db_table = "user_trades"
+
+class UserData(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(null=False, max_length=22)
+    country = models.CharField(null=False, max_length=3)
+    referral_code = models.CharField(null=False, max_length=50)
+    is_email_verified = models.BooleanField(default=False)
+    verification_code = models.CharField(null=False, max_length=36, default="")
+    trading_account_allowed = models.IntegerField(null=False, default=1)
+    last_modified_by = models.CharField(null=False, max_length=10, default="none")
+
+    class Meta:
+        db_table = "auth_user_info"
+
+class Notifications(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    notification_title = models.CharField(null=False, max_length=100)
+    notification_description = models.CharField(null=False, max_length=250)
+    is_seen = models.BooleanField(null=False, default=False)
+
+    class Meta:
+        db_table = "admin_notification"
