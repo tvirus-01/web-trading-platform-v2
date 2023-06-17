@@ -12,6 +12,7 @@ import yfinance as yf
 from datetime import datetime
 import time
 import string, random
+import requests
 
 from userapp.models import *
 from userapp.sendEmails import *
@@ -21,12 +22,24 @@ def userDashboard(request):
     current_user = request.user
     if current_user.is_staff:
         return redirect("/admin")
+    
+    if userSymbolData := UserActiveSymbol.objects.filter(user_id=current_user.id):
+        user_symbol = userSymbolData[0].symbol
+        user_interval = userSymbolData[0].chart_interval
+        active_symbol = userSymbolData[0].symbol_type
+    else:
+        user_symbol = "EURUSD"
+        user_interval = "5m"
+        active_symbol = "forex"
 
     context = {
         'title': f"Dashboard - {current_user.username}",
         'user_name': current_user.username,
+        'user_symbol': user_symbol,
+        'user_interval': user_interval,
+        'active_symbol_type': active_symbol,
     }
-    return render(request, "user/index.html")
+    return render(request, "user/index.html", context=context)
 
 def Register(request):
     # sourcery skip: move-assign, reintroduce-else, remove-unnecessary-else
@@ -186,44 +199,90 @@ def leftPanelData(request):
     return HttpResponse(data_out, content_type='application/json')
 
 @login_required(login_url='/login')
+def ChangeUserSymbol(request):
+    current_user = request.user
+    if current_user.is_staff:
+        return redirect("/admin")
+    
+    symbol = request.GET.get("symbol", False)
+    symbol_type = request.GET.get("symbol_type", False)
+
+    if symbol == False:
+        symbol = "EURUSD"
+
+    if symbol_type == False:
+        symbol_type = "forex"
+
+    if data := UserActiveSymbol.objects.filter(user_id=current_user.id):
+        data[0].symbol = symbol
+        data[0].symbol_type = symbol_type
+        data[0].save()
+    else:
+        data = UserActiveSymbol.objects.create(
+            user = current_user,
+            symbol = symbol,
+            symbol_type = symbol_type
+        )
+
+    return HttpResponse("success")
+
+@login_required(login_url='/login')
+def ChangeUserInterval(request):
+    current_user = request.user
+    if current_user.is_staff:
+        return redirect("/admin")
+    
+    user_interval = request.GET.get("userinterval", False)
+
+    if data := UserActiveSymbol.objects.filter(user_id=current_user.id):
+        data[0].chart_interval = user_interval
+        data[0].save()
+    else:
+        data = UserActiveSymbol.objects.create(
+            user = current_user,
+            symbol = "EURUSD"
+        )
+
+    return HttpResponse("success")
+
+@login_required(login_url='/login')
 def getHistoryData(request):
     current_user = request.user
     if current_user.is_staff:
         return redirect("/admin")
 
-    symbol = request.GET.get("symbol", False)
-    symbol_type = request.GET.get("symbol_type", False)
-    interval = request.GET.get("interval", False)
-
-    if symbol_type == "forex":
-        symbol = f"{symbol}=X"
+    if userSymbolData := UserActiveSymbol.objects.filter(user_id=current_user.id):
+        symbol = userSymbolData[0].symbol
+        interval = userSymbolData[0].chart_interval
+        symbol_type = userSymbolData[0].symbol_type
     else:
-        symbol = f"{symbol[:3]}-{symbol[3:6]}"
-            
+        symbol = "EURUSD"
+        interval = "5m"
+        symbol_type = "forex"
+    # data_out = json.dumps({}, indent=2, sort_keys=True, default=str)
 
-    if interval in ["1m"]:
-        period = "1w"
-    elif interval in ["5m", "15m", "30m"]:
-        period = "1mo"
-    elif interval in ["1h"]:
-        period = "6mo"
-    else:
-        period = "max"
+    if data := CurrencyLists.objects.filter(symbol=symbol):
+        if symbol_type and interval:
+            data = data[0]
+            symbol_id = data.id
 
-    pd_data = yf.download(tickers = symbol, period = period, interval = interval)
+            url = f"https://fcsapi.com/api-v3/{symbol_type}/history?id={symbol_id}&period={interval}&access_key={config.API_KEY}&level=3"
 
-    processed_data = []
-    for index, row in pd_data.iterrows():
-        candle_data = {
-            "time": datetime.timestamp(index),
-            "open": round(row["Open"], 4),
-            "high": round(row["High"], 4),
-            "low": round(row["Low"], 4),
-            "close": round(row["Close"], 4)
-        }
-        processed_data.append(candle_data)
+            chart_data = requests.get(url)
+            chart_data_json = chart_data.json()['response']
 
-    data_out = json.dumps(processed_data, indent=2, sort_keys=True, default=str)
+            processed_data = []
+            for index in chart_data_json:
+                candle_data = {
+                    "time": int(index),
+                    "open": float(chart_data_json[index]["o"]),
+                    "high": float(chart_data_json[index]["h"]),
+                    "low": float(chart_data_json[index]["l"]),
+                    "close": float(chart_data_json[index]["c"])
+                }
+                processed_data.append(candle_data)
+
+            data_out = json.dumps(processed_data, indent=2, sort_keys=True, default=str)
 
     return HttpResponse(data_out, content_type='application/json')
 

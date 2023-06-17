@@ -1,7 +1,7 @@
 window.chartType = getCookie("chartType");
-window.activeSymbol = getCookie("activeSymbol");
-window.activeType = getCookie("activeType");
-window.chartInterval = getCookie("chartInterval");
+window.activeSymbol = $("#user_current_symbol").val();
+window.activeType = $("#active_symbol_type").val();
+window.chartInterval = $("#user_interval").val();
 $(".interval-btn").text(window.chartInterval);
 
 if (window.chartType == null) {
@@ -108,14 +108,8 @@ function getHistoryData(force_new){
     
     const chartWrapperReference = document.getElementById("chart");
 
-    var data = new URLSearchParams();
-    data.append("symbol", window.activeSymbol);
-    data.append("symbol_type", window.activeType);
-    data.append("interval", window.chartInterval);
-
-    if (typeof window.chart_data === 'undefined' || force_new == true){
         fetch(
-            "/get/history-data?"+data
+            "/get/history-data?"
         )
         .then(r => r.json())
         .then(chart_data => {
@@ -136,53 +130,11 @@ function getHistoryData(force_new){
             window.chart_current_timestamp = chart_data_last.time;
             window.chart_next_timestamp = chart_data_last.time + window.chartTimeToAdd;
         });
-    }else{
-        fetch(
-            "get/current-data?symbol="+window.activeSymbol
-        )
-        .then(r => r.json())
-        .then(candle_data => {
-            if(candle_data.length > 0){
-                candle_data = candle_data[0];
-                exact_time = parseInt(candle_data['time']);
-                
-                new_data = Array();
-                // console.log(window.chart_current_timestamp, window.chart_next_timestamp, exact_time);
-
-                if(exact_time > window.chart_next_timestamp){
-                    new_data = {
-                        "time": window.chart_next_timestamp,
-                        "open": candle_data['open'],
-                        "high": candle_data['high'],
-                        "low": candle_data['low'],
-                        "close": candle_data['close']
-                    }
-                    
-                    window.chart_data.push(new_data);
-                    window.chart_current_timestamp = window.chart_next_timestamp;
-                    window.chart_next_timestamp = window.chart_next_timestamp + window.chartTimeToAdd;
-                }else{
-                    new_data = {
-                        "time": window.chart_current_timestamp,
-                        "open": candle_data['open'],
-                        "high": candle_data['high'],
-                        "low": candle_data['low'],
-                        "close": candle_data['close']
-                    }
-                    window.chart_data.pop();
-                    window.chart_data.push(new_data);
-                }
-
-                chartWrapperReference.changeData();
-                // console.log(window.chart_data);
-            }
-        })
-    }
 }
 
 setInterval(() => {
     getHistoryData(true);
-}, 1000);
+}, 500);
 
 function changeActiveSymbol(){
     symbol = $(this).attr("symbol");
@@ -195,9 +147,17 @@ function changeActiveSymbol(){
 
     document.getElementsByClassName('legend-symbol')[0].innerHTML = window.activeSymbol;
 
-    getHistoryData(true);
-    addChartControl(window.activeSymbol, true);
+    fetch(
+        "/set/user-symbol?symbol="+symbol+"symbol_type="+symbol_type
+    )
+    .then(r => {
+        if (r.status == 200) {
+            getHistoryData(true);
+            addChartControl(window.activeSymbol, true);
+        }
+    });    
 }
+
 function changeChartInterval(){
     interval = $(this).attr("interval");
 
@@ -205,8 +165,15 @@ function changeChartInterval(){
     window.chartInterval = interval;
     $(".interval-btn").text(interval);
 
-    getHistoryData(true);
-    chnageAddTime();
+    fetch(
+        "/set/user-interval?userinterval="+interval
+    )
+    .then(r => {
+        if (r.status == 200) {
+            getHistoryData(true);
+            chnageAddTime();
+        }
+    });
 }
 // function chnageChartType(){
 //     chartType = $(this).attr("val");

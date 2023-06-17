@@ -35,6 +35,15 @@ class UserData(models.Model):
     class Meta:
         db_table = "auth_user_info"
 
+class UserActiveSymbol(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    symbol = models.CharField(max_length=10)
+    symbol_type = models.CharField(max_length=10, default="forex")
+    chart_interval = models.CharField(max_length=10, default="5m")
+
+    class Meta:
+        db_table = "user_symbol"
+
 class userTrades(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # trading_account = models.ForeignKey(tradingAccounts, on_delete=models.CASCADE)

@@ -609,12 +609,13 @@
                                         <a class="change-stats-button" interval="15m">15 minutes</a>
                                         <a class="change-stats-button" interval="30m">30 minutes</a>
                                         <a class="change-stats-button last" interval="1h">1 hour</a>
+                                        <a class="change-stats-button last" interval="2h">2 hour</a>
                                     </div>
                                     <div class="type-options-container change-time-dropdown last">
-                                        <!-- <a class="change-stats-button" interval="12h">12 hours</a> -->
+                                        <a class="change-stats-button" interval="4h">4 hours</a>
                                         <a class="change-stats-button" interval="1d">1 day</a>
-                                        <a class="change-stats-button" interval="1wk">1 week</a>
-                                        <a class="change-stats-button last" interval="1mo">1 month</a>
+                                        <a class="change-stats-button" interval="1w">1 week</a>
+                                        <a class="change-stats-button last" interval="month">1 month</a>
                                     </div>
                                 </div>
                             </div>
@@ -1450,6 +1451,9 @@
                             </ul>
                         </div>
                     </div>
+                    <input type="hidden" value="{{ user_symbol }}" id="user_current_symbol">
+                    <input type="hidden" value="{{ user_interval }}" id="user_interval">
+                    <input type="hidden" value="{{ active_symbol_type }}" id="active_symbol_type">
 
                     <div class="dropdown drop-start mobile-settings-input">
                         <button class="btn btn-sm btn-outline-secondary mobile-settings-dropdown dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,15">
