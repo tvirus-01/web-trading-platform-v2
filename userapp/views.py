@@ -51,7 +51,6 @@ def Register(request):
         _process_user_signup(request, context)
     return render(request, "register.html", context)
 
-
 def _process_user_signup(request, context):
     first_name = request.POST['first_name']
     last_name = request.POST['last_name']
@@ -176,23 +175,42 @@ def leftPanelData(request):
     if current_user.is_staff:
         return redirect("/admin")
 
-    all_lists = CurrencyLists.objects.all()
+    fx_db_lists = CurrencyLists.objects.filter(symbol_type="forex")
+    cr_db_lists = CurrencyLists.objects.filter(symbol_type="crypto")
+
+    fx_ids = ''.join(f"{fx.id}," for fx in fx_db_lists)[:-1]
+    cr_ids = ''.join(f"{cr.id}," for cr in cr_db_lists)[:-1]
+    
+    forex_price_url = f"https://fcsapi.com/api-v3/forex/latest?id={fx_ids}&access_key={config.API_KEY}"
+    crypto_price_url = f"https://fcsapi.com/api-v3/forex/latest?id={cr_ids}&access_key={config.API_KEY}"
+    
     forex_list = []
     crypto_list = []
 
-    for currency in all_lists:
-        currency_data = {
-            "id":currency.id,
-            "time":currency.time,
-            "symbol":currency.symbol,
-            "ask":currency.ask,
-            "bid":currency.bid
-        }
+    forex_data = requests.get(forex_price_url)
+    forex_data = forex_data.json()['response']
+    crypto_data = requests.get(crypto_price_url)
+    crypto_data = crypto_data.json()['response']
 
-        if currency.symbol_type == "forex":
-            forex_list.append(currency_data)
-        else:
-            crypto_list.append(currency_data)
+    for fx_data in forex_data:
+        currency_data = {
+            "id":fx_data['id'],
+            "time":fx_data['t'],
+            "symbol":fx_data['s'].replace('/', ''),
+            "ask":fx_data['a'],
+            "bid":fx_data['b']
+        }
+        forex_list.append(currency_data)
+
+    for cr_data in crypto_data:
+        currency_data = {
+            "id":cr_data['id'],
+            "time":cr_data['t'],
+            "symbol":cr_data['s'].replace('/', ''),
+            "ask":cr_data['a'],
+            "bid":cr_data['b']
+        }
+        crypto_list.append(currency_data)
 
     data_out = json.dumps({"forex_data":forex_list, "crypto_data":crypto_list}, indent=2, sort_keys=True, default=str)
 
@@ -336,8 +354,10 @@ def getOrderData(request):
         processed_orders = []
         for order in user_orders:
             symbol_price = CurrencyLists.objects.get(symbol=order.symbol)
+            symbol_data = requests.get(f"https://fcsapi.com/api-v3/forex/latest?id={symbol_price.id}&access_key={config.API_KEY}")
+            symbol_data = symbol_data.json()['response'][0]
             
-            close_price = float(symbol_price.close)
+            close_price = float(symbol_data['c'])
             order_size = order.order_size * 100000
             profit = (close_price - order.open_price) * order_size
             profit = round(profit, 4)
