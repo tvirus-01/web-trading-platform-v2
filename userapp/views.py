@@ -41,6 +41,18 @@ def userDashboard(request):
     }
     return render(request, "user/index.html", context=context)
 
+@login_required(login_url='/login')
+def userProfileDashboard(request):
+    current_user = request.user
+    if current_user.is_staff:
+        return redirect("/admin")
+    
+    context = {
+        
+    }
+    
+    return render(request, "user/dashboard/template.html", context=context)
+
 def Register(request):
     # sourcery skip: move-assign, reintroduce-else, remove-unnecessary-else
     context = {'title': "Sign up"}

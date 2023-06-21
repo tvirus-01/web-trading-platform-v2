@@ -17,4 +17,5 @@ urlpatterns = [
     path("verify-account/<str:verification_code>", views.verifyUser),
     path("set/user-symbol", views.ChangeUserSymbol),
     path("set/user-interval", views.ChangeUserInterval),
+    path("user-dashboard", views.userProfileDashboard),
 ]
