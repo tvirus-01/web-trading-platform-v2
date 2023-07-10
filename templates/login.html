@@ -84,38 +84,52 @@
   transform:translateY(1px);
 }
 
+.ta-partner{
+  background: transparent;
+  color: #fff;
+  text-align: center; 
+  font-size: 14px;
+}
+
 
 </style>
 
 <body>
     <div class="login-dark">
         <form method="post">
-            <h2 class="sr-only">Login Form</h2>
-            <div class="illustration">
-                <i class="icon ion-ios-locked-outline"></i>
-            </div>
-            {% csrf_token %}
-            <div class="form-group">
-                <input class="form-control" type="text" name="user_name" placeholder="User Name">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="Password">
-            </div>
+          <h2 class="sr-only">Login Form</h2>
+          <div class="illustration">
+              <i class="icon ion-ios-locked-outline"></i>
+          </div>
+          {% csrf_token %}
+          <div class="form-group">
+              <input class="form-control" type="text" name="user_name" placeholder="User Name">
+          </div>
+          <div class="form-group">
+              <input class="form-control" type="password" name="password" placeholder="Password">
+          </div>
 
-            <div class="form-group">
-                <button class="btn btn-primary btn-block" type="submit">Log In</button>
-            </div>            
-            <div class="form-group d-flex align-items-center justify-content-between">
-                <span class="text-danger err_msg">
-                    {% if password_error == True %}
-                    Username or Password you entered is incorrect
-                    {% endif %}
-                </span>
-            </div>
-            <a href="/reset-password" class="forgot">Forgot your email or password?</a>
-            <a href="/register" class="forgot">Create a new account</a>
-          </form>
+          <div class="form-group">
+              <button class="btn btn-primary btn-block" type="submit">Log In</button>
+          </div>            
+          <div class="form-group d-flex align-items-center justify-content-between">
+              <span class="text-danger err_msg">
+                  {% if password_error == True %}
+                  Username or Password you entered is incorrect
+                  {% endif %}
+              </span>
+          </div>
+          <a href="/reset-password" class="forgot">Forgot your email or password?</a>
+          <a href="/register" class="forgot">Create a new account</a>
+
+          <div class="ta-partner mt-3">
+            <span>
+              Our charts are powered By <a href="https://www.tradingview.com/" target="_blank"><img src="{% static 'images/tradingview-logo.png' %}" style="width: 115px;"></a>. A comprehensive trading and investment platform which offers an exceptional charting experience. It empowers traders and investors with cutting-edge analytical tools, including <a target="_blank" href="https://www.tradingview.com/screener/">Screener</a> and <a target="_blank" href="https://www.tradingview.com/economic-calendar/">Economic Calendar</a>.
+            </span>
+          </div>
+        </form>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 </body>

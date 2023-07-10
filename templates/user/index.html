@@ -199,427 +199,54 @@
         <!-- Page content wrapper-->
         <div id="page-content-wrapper">
             <div class="main-content-container">
-                <div class="chart-container">
-                    <div class="chart-control">
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary chart-control-new-chart" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
-                            </button>
-                            <div class="dropdown-menu" id="new-chart-control-wrapper" aria-labelledby="dropdownMenuButton">
-                                <div class="new-chart-control-container">
-                                <div class="new-chart-control-header">
-                                    <div class="chart-bottom-search chart-bottom-item">
-                                        <input autocomplete="off" type="text" class="btn btn-sm input-outline-secondary search-input" id="control-panel-search" placeholder="Search">
-                                    </div>
-                                    <ul class="nav nav-pills mb-3 new-chart-control-tabscontainer" id="pills-tab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="pills-forex-tab" data-bs-toggle="pill" data-bs-target="#pills-forex" type="button" role="tab" aria-controls="pills-forex" aria-selected="true">FOREX</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="pills-cfd-tab" data-bs-toggle="pill" data-bs-target="#pills-cfd" type="button" role="tab" aria-controls="pills-cfd" aria-selected="false">CFD</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="pills-metals-tab" data-bs-toggle="pill" data-bs-target="#pills-metals" type="button" role="tab" aria-controls="pills-metals" aria-selected="false">METALS</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="pills-crypto-tab" data-bs-toggle="pill" data-bs-target="#pills-crypto" type="button" role="tab" aria-controls="pills-crypto" aria-selected="false">CRYPTO</button>
-                                        </li>
-                                    </ul>
-                                </div>
-                                    <div class="tab-content new-chart-control-table-container" id="pills-tabContent">
-                                    <div class="tab-pane fade show active" id="pills-forex" role="tabpanel" aria-labelledby="pills-forex-tab">
-                                        <div class="new-chart-control-tab-title">
-                                            <span>FOREX</span>
-                                        </div>
-                                        <ul id="new-chart-control-content-forex" class="new-chart-control-content">
-                                            <li></li>
-                                        </ul>
-                                    </div>
-                                    <div class="tab-pane fade" id="pills-cfd" role="tabpanel" aria-labelledby="pills-cfd-tab">
-                                        <div class="new-chart-control-tab-title">
-                                            <span>CFD</span>
-                                        </div>
-                                        <ul id="new-chart-control-content-forex" class="new-chart-control-content">
-                                            <li></li>
-                                        </ul>
-                                    </div>
-                                    <div class="tab-pane fade" id="pills-metals" role="tabpanel" aria-labelledby="pills-metals-tab">
-                                        <div class="new-chart-control-tab-title">
-                                            <span>METALS</span>
-                                        </div>
-                                        <ul id="new-chart-control-content-forex" class="new-chart-control-content">
-                                            <li></li>
-                                        </ul>
-                                    </div>
-                                    <div class="tab-pane fade" id="pills-crypto" role="tabpanel" aria-labelledby="pills-crypto-tab">
-                                        <div class="new-chart-control-tab-title">
-                                            <span>CRYPTO</span>
-                                        </div>
-                                        <ul id="new-chart-control-content-forex" class="new-chart-control-content">
-                                            <li></li>
-                                        </ul>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="chart-control-button-wrapper">
-                        </div>
-                        <div class="chart-control-options-container">
-                            <div class="dropdown-menu-end">
-                                <button class="charts-number-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    charts number
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" id="dropdown-chart-selector" aria-labelledby="dropdownMenuButton">
-                                    <div class="chart-selector-wrapper">
-                                        <div class="chart-selector-container">
-                                            <span>1 chart</span>
-                                            <button class="chart-selector-button one-chart"></button>
-                                        </div>
-                                        <div class="chart-selector-container">
-                                            <span>2 chart</span>
-                                            <button class="chart-selector-button two-chart-first"></button>
-                                            <button class="chart-selector-button two-chart-second"></button>
-                                        </div>
-                                        <div class="chart-selector-container">
-                                            <span>3 chart</span>
-                                            <button class="chart-selector-button three-chart-first"></button>
-                                            <button class="chart-selector-button three-chart-second"></button>
-                                            <button class="chart-selector-button three-chart-third"></button>
-                                            <button class="chart-selector-button three-chart-fourth"></button>
-                                            <button class="chart-selector-button three-chart-fifth"></button>
-                                        </div>
-                                        <div class="chart-selector-container">
-                                            <span>4 chart</span>
-                                            <button class="chart-selector-button four-chart"></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                            <a class="full-screen" onclick="toggleFullScreen()"></a>
-                        </div>
-                    </div>
-                    <div id="quick-trading">
-                        <button id="quick-trading-sell" class="quick-trade-now" type="sell">
-                            <span>SELL </span>
-                            <span id="quick-trding-sell-value" class="quick-trading-value"></span>
-                        </button>
-                        <div class="dropdown-center quick-trading-value-container" id="quick-trading-value-counter">
-                                <input id="quick-trading-value-input" value="0.01"/>
-                                    <button class="dropdown-toggle quick-trading-values-trigger" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
-                                    </button>
-                                    <ul class="dropdown-menu quick-trading-values-selector">
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.01)">0.01</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.05)">0.05</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.10)">0.10</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.20)">0.20</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(0.50)">0.50</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(1.00)">1.00</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(2.00)">2.00</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(3.00)">3.00</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(4.00)">4.00</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(5.00)">5.00</a></li>
-                                        <li role="dropdown-item"><a href="#" onclick="quickTradeChangeValue(10.00)">10.00</a></li>
-                                    </ul>
-                            <div class="quick-trading-buttons-container">
-                                <button id="quick-trading-increase" onclick="quickTradeAddValue(event)">+</button>
-                                <button id="quick-trading-decrease" onclick="quickTradeSubtractValue()">-</button>
-                            </div>
-                        </div>
-                        <button id="quick-trading-buy" class="quick-trade-now" type="buy">
-                            <span>BUY</span>
-                            <span id="quick-trding-buy-value" class="quick-trading-value"></span>
-                        </button>
-                        <button class="btn btn-primary btn-sm quick-trading-options-btn" type="button" data-bs-toggle="modal" data-bs-target="#newOrderModal"></button>
-
-                    </div>
+                <div class="chart-container">                    
                     <div class="chart-elements-wrapper">
-                        <custom-lightweight-chart id="chart"
-                        autosize
-                        type="line"
-                        ></custom-lightweight-chart>
-                        <div class="chart-zoom-buttons-container">
-                            <button class="chart-zoom-button" id="chart-zoom-out"></button>
-                            <button class="chart-zoom-button" id="chart-zoom-in"></button>
-                            <button class="chart-zoom-button" id="chart-move-button"></button>
-                        </div>
-                    </div>
-                    <div class="legend-container"></div>
-                    <div class="chart-buttons-container">
-                        <div class="btn-group dropend">
-                            <button class="chart-type-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </button>
-                            <div class="dropdown-menu chart-type-options">
-                                <div class="type-options-container">
-                                    <a class="change-type-button change-chart-type-btn area" id="change-type-area" val="area">Area</a>
-                                    <a class="change-type-button change-chart-type-btn line" id="change-type-line" val="line">Line</a>
-                                    <a class="change-type-button change-chart-type-btn bar" id="change-type-bar" val="bar">Bars</a>
-                                    <a class="change-type-button change-chart-type-btn candle" id="change-type-candlestick" val="candlestick">Candles</a>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="tv_chart_container"></div>
+                        <script type="text/javascript">
 
-                        <div class="btn-group dropend">
-                            <button class="chart-type-btn" id="chart-cursor-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </button>
-                            <div class="dropdown-menu chart-type-options">
-                                <div class="type-options-container">
-                                    <a class="change-type-button cursor" id="change-type-area">Cursor</a>
-                                    <a class="change-type-button crosshair" id="change-type-line">Crosshair</a>
-                                    <a class="change-type-button dot" id="change-type-bar">Dot</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="btn-group dropend">
-                            <button class="chart-type-btn" id="chart-lines-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </button>
-                            <div class="dropdown-menu chart-type-options">
-                                <div class="type-options-container">
-                                    <a class="change-type-button vertical" id="change-type-area">Vertical Line</a>
-                                    <a class="change-type-button horizontal" id="change-type-line">Horizontal Line</a>
-                                    <a class="change-type-button trend" id="change-type-bar">Trend Line</a>
-                                    <a class="change-type-button fibonacci" id="change-type-candlestick">Fibonacci lines</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="btn-group dropend">
-                            <button class="chart-type-btn" id="chart-stats-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </button>
-                            <div class="dropdown-menu chart-type-options">
-                                <div class="type-options-container" id="change-stats-dropdown-container">
-                                    <!-- Default dropend button -->
-                                    <div class="dropend">
-                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Trend
-                                        </a>
-                                        <ul class="dropdown-menu change-stats-dropdown">
-                                            <li>
-                                                <a href="#">Adaptive&nbsp;Moving&nbsp;Average</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Alligator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Average&nbsp;Directional&nbsp;Movement&nbsp;Index</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Envelopes</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Moving Average</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Parabolic SAR</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Price Channel</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Range&nbsp;Action&nbsp;Verification&nbsp;Index</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="dropend">
-                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Oscillators
-                                        </a>
-                                        <ul class="dropdown-menu change-stats-dropdown oscillators">
-                                            <li>
-                                                <a href="#">Accelerator Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Aroon</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Awesome Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Bears Power</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Bulls Power</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Chaikin Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Commodity&nbsp;Channel&nbsp;Index</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">DeMarker</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Detrended&nbsp;Price&nbsp;Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Gator Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">MACD</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Momentum</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Moving&nbsp;Average&nbsp;of&nbsp;Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Price Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Rate Of Change</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Relative Strength Index</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Relative Vigor Index</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Stochastic Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">William''s Percent Range</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="dropend">
-                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Volatility
-                                        </a>
-                                        <ul class="dropdown-menu change-stats-dropdown">
-                                            <li>
-                                                <a href="#">Average True Range</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Bollinger Bands</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Standard Deviation</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="dropend">
-                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Volumes
-                                        </a>
-                                        <ul class="dropdown-menu change-stats-dropdown">
-                                            <li>
-                                                <a href="#">Accumulation/Distribution</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Money Flow Index</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">On Balance Volume</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="dropend">
-                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Other
-                                        </a>
-                                        <ul class="dropdown-menu change-stats-dropdown">
-                                            <li>
-                                                <a href="#">Fractals</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Ichimoku Kinko Hyo</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Market&nbsp;Facilitation&nbsp;Index</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Pivot Points</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">ZigZag</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="dropend">
-                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Bill Williams
-                                        </a>
-                                        <ul class="dropdown-menu change-stats-dropdown" data-popper-placement="right-start">
-                                            <li>
-                                                <a href="#">Accelerator Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Alligator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Awesome Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Fractals</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Gator Oscillator</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Market&nbsp;Facilitation&nbsp;Index</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="dropend">
-                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Alexander Elder
-                                        </a>
-                                        <ul class="dropdown-menu change-stats-dropdown">
-                                            <li>
-                                                <a href="#">Bears Power</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Bulls Power</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">MACD</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Relative Strength Index</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="dropend">
-                                        <a type="button" class="change-stats-button dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Larry Williams
-                                        </a>
-                                        <ul class="dropdown-menu change-stats-dropdown">
-                                            <li>
-                                                <a href="#">Accumulation/Distribution</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">William''s Percent Range</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="btn-group dropend">
-                            <button class="chart-type-btn interval-btn" id="chart-time-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu chart-type-options">
-                                <div class="double-chart-container">
-                                    <div class="type-options-container change-time-dropdown">
-                                        <a class="change-stats-button" interval="1m">1 minute</a>
-                                        <a class="change-stats-button" interval="5m">5 minutes</a>
-                                        <a class="change-stats-button" interval="15m">15 minutes</a>
-                                        <a class="change-stats-button" interval="30m">30 minutes</a>
-                                        <a class="change-stats-button last" interval="1h">1 hour</a>
-                                        <a class="change-stats-button last" interval="2h">2 hour</a>
-                                    </div>
-                                    <div class="type-options-container change-time-dropdown last">
-                                        <a class="change-stats-button" interval="4h">4 hours</a>
-                                        <a class="change-stats-button" interval="1d">1 day</a>
-                                        <a class="change-stats-button" interval="1w">1 week</a>
-                                        <a class="change-stats-button last" interval="month">1 month</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            function getParameterByName(name) {
+                                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                                    results = regex.exec(location.search);
+                                return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+                            }
+                
+                            function initOnReady() {
+                                var datafeedUrl = "https://demo-feed-data.tradingview.com";
+                                var customDataUrl = getParameterByName('dataUrl');
+                                if (customDataUrl !== "") {
+                                    datafeedUrl = customDataUrl.startsWith('https://') ? customDataUrl : `https://${customDataUrl}`;
+                                }
+                
+                                var widget = window.tvWidget = new TradingView.widget({
+                                    // debug: true,
+                                    fullscreen: false,
+                                    width: 1200,
+                                    symbol: 'AAPL',
+                                    interval: '1D',
+                                    container: "tv_chart_container",
+                
+                                    //	BEWARE: no trailing slash is expected in feed URL
+                                    datafeed: new Datafeeds.UDFCompatibleDatafeed(datafeedUrl, undefined, {
+                                        maxResponseLength: 1000,
+                                        expectedOrder: 'latestFirst',
+                                    }),
+                                    library_path: "charting_library/",
+                                    locale: getParameterByName('lang') || "en",
+                
+                                    disabled_features: ["use_localstorage_for_settings"],
+                                    enabled_features: ["study_templates"],
+                                    charts_storage_url: 'https://saveload.tradingview.com',
+                                    charts_storage_api_version: "1.1",
+                                    client_id: 'tradingview.com',
+                                    user_id: 'public_user_id',
+                                    theme: 'dark',
+                                    custom_css_url: '/static/charting_library/themed.css',
+                                });
+                            };
+                
+                            window.addEventListener('DOMContentLoaded', initOnReady, false);
+                        </script>
                     </div>
                     <!-- Notifications modal -->
                     <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
