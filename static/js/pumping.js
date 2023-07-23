@@ -254,3 +254,5 @@ $(".quick-trade-now").click(function (){
         }
     })
 })
+
+console.log("hello")

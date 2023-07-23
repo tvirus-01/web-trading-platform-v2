@@ -1,0 +1,54 @@
+{% load static %}
+<div class="sidebar" data-color="purple" data-background-color="black" data-image="{% static 'user-dashboard/assets/img/sidebar-2.jpg' %}">
+    <div class="logo">
+      <a href="/" class="simple-text logo-normal">
+        Admin Dashboard
+      </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li class="nav-item {% if active_nav == 'dashboard' %} active {% endif %}">
+          <a class="nav-link" href="/admin">
+            <i class="material-icons">dashboard</i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li class="nav-item {% if active_nav == 'users' %} active {% endif %} ">
+          <a class="nav-link" href="users">
+            <i class="material-icons">person</i>
+            <p>Staff Users</p>
+          </a>
+        </li>
+        <li class="nav-item {% if active_nav == 'trading_accounts' %} active {% endif %} ">
+          <a class="nav-link" href="accounts">
+            <i class="material-icons">manage_accounts</i>
+            <p>Accounts</p>
+          </a>
+        </li>
+        <li class="nav-item {% if active_nav == 'live_order' %} active {% endif %}">
+          <a class="nav-link" href="live-orders">
+            <i class="material-icons">live_tv</i>
+            <p>Live Orders</p>
+          </a>
+        </li>
+        <li class="nav-item {% if active_nav == 'closed_order' %} active {% endif %}">
+          <a class="nav-link" href="closed-orders">
+            <i class="material-icons">archive</i>
+            <p>Closed Orders</p>
+          </a>
+        </li>
+        <li class="nav-item {% if active_nav == 'deposits' %} active {% endif %}">
+          <a class="nav-link" href="deposits">
+            <i class="material-icons">attach_money</i>
+            <p>Deposits</p>
+          </a>
+        </li>
+        <li class="nav-item {% if active_nav == 'withdraw' %} active {% endif %}">
+          <a class="nav-link" href="withdraw">
+            <i class="material-icons">account_balance</i>
+            <p>Withdraw</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>

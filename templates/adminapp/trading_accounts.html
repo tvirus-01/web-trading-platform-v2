@@ -1,0 +1,72 @@
+{% extends 'adminapp/layout.html' %}
+{% load static %}
+{% block content %}
+  <div class="wrapper ">
+    <div class="main-panel">
+      {% include 'adminapp/modules/navbar.html' %}
+      <div class="content">
+        <div class="container-fluid">
+          
+          <div class="row">
+            <div class="col">
+              <h3>{{title}}</h3>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <table class="table table-striped table-dark">
+                
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Account Number</th>
+                    <th>Account Type</th>
+                    <th>Server</th>
+                    <th>Leverage</th>
+                    <th>Base currency</th>
+                    <th>Balance</th>
+                    <th>Equity</th>
+                    <th>Free Margin</th>
+                    <th>Profit</th>
+                    <th>Credits</th>
+                    <th>Status</th>
+                    <th>State</th>
+                    <th>Account Type</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for ta in all_trading_accounts %}
+                    <td>{{ ta.user.id }}</td>
+                    <td>{{ ta.user.first_name }}</td>
+                    <td>{{ ta.account_number }}</td>
+                    <td>{{ ta.account_type }}</td>
+                    <td>{{ ta.server }}</td>
+                    <td>{{ ta.levrage }}</td>
+                    <td>{{ ta.currency }}</td>
+                    <td>{{ ta.balance }}</td>
+                    <td>{{ ta.equity }}</td>
+                    <td>{{ ta.free_meargin }}</td>
+                    <td>{{ ta.loss_profit }}</td>
+                    <td>{{ ta.account_credits }}</td>
+                    <td>{{ ta.status }}</td>
+                    <td>{{ ta.state }}</td>
+                    <td>{{ ta.account_type }}</td>
+                  {% endfor %}
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <!-- your footer here -->
+        </div>
+      </footer>
+    </div>
+  </div>
+{% endblock %}

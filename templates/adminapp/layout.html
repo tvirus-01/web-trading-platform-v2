@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-  <title>Hello, world!</title>
+  <title>Admin Dashboard</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
@@ -17,9 +17,11 @@
 
 <body class="dark-edition">
 
-    {% block content %}
+  {% include 'adminapp/modules/sidebar.html' %}
+
+  {% block content %}
     
-    {% endblock %}
+  {% endblock %}
 <script src="{% static 'user-dashboard/assets/js/core/jquery.min.js' %}"></script>
 <script src="{% static 'user-dashboard/assets/js/core/popper.min.js' %}"></script>
 <script src="{% static 'user-dashboard/assets/js/core/bootstrap-material-design.min.js' %}"></script>

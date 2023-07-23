@@ -18,4 +18,5 @@ urlpatterns = [
     path("set/user-symbol", views.ChangeUserSymbol),
     path("set/user-interval", views.ChangeUserInterval),
     path("user-dashboard", views.userProfileDashboard),
+    path("test-user", views.testUser),
 ]

@@ -1,0 +1,29 @@
+{% extends 'adminapp/layout.html' %}
+{% load static %}
+{% block content %}
+  <div class="wrapper ">
+    <div class="main-panel">
+      {% include 'adminapp/modules/navbar.html' %}
+      <div class="content">
+        <div class="container-fluid">
+          
+          <div class="row">
+            <div class="col">
+              <h3>{{title}}</h3>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container-fluid">
+          <!-- your footer here -->
+        </div>
+      </footer>
+    </div>
+  </div>
+{% endblock %}

@@ -5,7 +5,7 @@ import config
 from userapp.models import Notifications
 
 email_from = config.EMAILSENDER
-webtrader = "http://my.seekstack.net:8000"
+webtrader = "https://my.seekstack.net"
 
 def saveNewAdminNotification(user_email, user_name):
     all_admins = User.objects.filter(is_superuser=True)

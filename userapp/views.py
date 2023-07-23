@@ -74,14 +74,18 @@ def _process_user_signup(request, context):
     user_name = ''.join(random.choices(string.digits, k=10))
     password = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase + '@$^%&()|-+', k=16))
     verification_code = ''.join(random.choices(string.ascii_uppercase + string.digits + string.ascii_lowercase, k=35))
+    user_id = random.randint(0,1000000)
 
     if User.objects.filter(username=user_name).exists():
         context['reg_err'] = "User with this username already exists"
     elif User.objects.filter(email=user_email).exists():
         context['reg_err'] = "User with this email already exists"
+    elif User.objects.filter(id=user_id).exists():
+        context['reg_err'] = "An Error ocourd please try again"
     else:
         print(first_name, last_name, phone)
         user = User.objects.create_user(
+            id = user_id,
             username = user_name,
             first_name = first_name,
             last_name = last_name,
@@ -450,3 +454,7 @@ def verifyUser(request, verification_code):
         return redirect("/login?vns")
     else:
         return redirect("/login")
+    
+def testUser(request):
+
+    return render(request, "test.html")

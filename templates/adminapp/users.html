@@ -9,7 +9,7 @@
           
           <div class="row">
             <div class="col">
-              <h3>Clients</h3>
+              <h3>Users</h3>
             </div>
           </div>
 
@@ -19,14 +19,11 @@
                 
                 <thead>
                   <tr>
-                    <th>Client ID</th>
+                    <th>User ID</th>
                     <th>User Name</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
-                    <th>Phone</th>
-                    <th>Country</th>
-                    <th>Referal Code</th>
                     <th>Last Login</th>
                     <th>Join Date</th>
                   </tr>
@@ -40,9 +37,6 @@
                       <td>{{ user.first_name }}</td>
                       <td>{{ user.last_name }}</td>
                       <td>{{ user.email }}</td>
-                      <td>{{ user.phone }}</td>
-                      <td>{{ user.country }}</td>
-                      <td>{{ user.referral_code }}</td>
                       <td>{{ user.last_login }}</td>
                       <td>{{ user.date_joined }}</td>
                     </tr>

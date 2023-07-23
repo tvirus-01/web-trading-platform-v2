@@ -44,6 +44,24 @@ class UserActiveSymbol(models.Model):
     class Meta:
         db_table = "user_symbol"
 
+class tradingAccounts(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    account_number = models.CharField(null=False, max_length=28)
+    server = models.CharField(null=False, max_length=20)
+    leverage = models.CharField(null=False, max_length=20)
+    currency = models.CharField(null=False, max_length=20)
+    balance = models.FloatField(default=0.00)
+    status = models.CharField(null=False, max_length=20, default="disabled")
+    state = models.CharField(null=False, max_length=20, default="trading_disabled")
+    account_type = models.CharField(null=False, max_length=30, default="MICRO")
+    equity = models.FloatField(default=0.00)
+    free_meargin = models.CharField(max_length=60, default=0.00)
+    loss_profit = models.FloatField(default=0.00)
+    account_credits = models.FloatField(default=0.00)
+
+    class Meta:
+        db_table = "trading_accounts"
+
 class userTrades(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # trading_account = models.ForeignKey(tradingAccounts, on_delete=models.CASCADE)
