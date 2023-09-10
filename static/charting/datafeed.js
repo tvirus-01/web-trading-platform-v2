@@ -1,4 +1,4 @@
-import { makeApiRequest, generateSymbol, parseFullSymbol } from './helpers.js';
+import { makeApiRequest, generateSymbol, parseFullSymbol, makeFcsAPiReq } from './helpers.js';
 
 // DatafeedConfiguration implementation
 const configurationData = {
@@ -6,14 +6,16 @@ const configurationData = {
     supported_resolutions: ['1', '1H', '1D', '1W', '1M'],
     // The `exchanges` arguments are used for the `searchSymbols` method if a user selects the exchange
     exchanges: [
-        { value: 'Bitfinex', name: 'Bitfinex', desc: 'Bitfinex'},
-        { value: 'Kraken', name: 'Kraken', desc: 'Kraken bitcoin exchange'},
-        { value: 'ABCC', name: 'ABCC', desc: 'ABCC bitcoin exchange'},
+        // { value: 'Bitfinex', name: 'Bitfinex', desc: 'Bitfinex'},
+        // { value: 'Kraken', name: 'Kraken', desc: 'Kraken bitcoin exchange'},
+        // { value: 'ABCC', name: 'ABCC', desc: 'ABCC bitcoin exchange'},
+        { value: 'FCS', name: 'FCS', desc: 'FCS API'},
     ],
     // The `symbols_types` arguments are used for the `searchSymbols` method if a user selects this symbol type
     symbols_types: [
-      { name: 'crypto', value: 'crypto'},
-        { name: 'forex', value: 'forex'}
+        { name: 'all', value: ''},
+        { name: 'crypto', value: 'crypto'},
+        { name: 'forex', value: 'forex'},
     ]
 };
 
@@ -31,7 +33,7 @@ async function getAllSymbols() {
                 return {
                     symbol: symbol.short,
                     full_name: symbol.full,
-                    description: symbol.short,
+                    description: symbol.full,
                     exchange: exchange.value,
                     type: 'crypto',
                 };
@@ -39,6 +41,26 @@ async function getAllSymbols() {
             allSymbols = [...allSymbols, ...symbols];
         }
     }
+    return allSymbols;
+}
+
+async function get_all_symbol(){
+    const data = await makeFcsAPiReq('currency-lists');
+    let allSymbols = [];
+
+    const pairs = data.currency_data
+    for (const pair of pairs){
+        const symbols = {
+            symbol: pair.symbol_short,
+            full_name: pair.symbol,
+            description: pair.name,
+            exchange: "FCS",
+            type: pair.symbol_type,
+        };
+
+        allSymbols.push(symbols);
+    }
+
     return allSymbols;
 }
 
@@ -55,13 +77,14 @@ export default {
         onResultReadyCallback
     ) => {
         console.log('[searchSymbols]: Method call');
-        const symbols = await getAllSymbols();
+        const symbols = await get_all_symbol();
         const newSymbols = symbols.filter(symbol => {
             const isExchangeValid = exchange === '' || symbol.exchange === exchange;
+            const isTypeValid = symbolType === '' || symbol.type === symbolType;
             const isFullSymbolContainsInput = symbol.full_name
                 .toLowerCase()
                 .indexOf(userInput.toLowerCase()) !== -1;
-            return isExchangeValid && isFullSymbolContainsInput;
+            return isExchangeValid && isFullSymbolContainsInput && isTypeValid;
         });
         onResultReadyCallback(newSymbols);
     },
@@ -73,7 +96,7 @@ export default {
         extension
     ) => {
         console.log('[resolveSymbol]: Method call', symbolName);
-        const symbols = await getAllSymbols();
+        const symbols = await get_all_symbol();
         const symbolItem = symbols.find(({ full_name }) => full_name === symbolName);
         if (!symbolItem) {
             console.log('[resolveSymbol]: Cannot resolve symbol', symbolName);
@@ -105,25 +128,15 @@ export default {
     getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback) => {
         const { from, to, firstDataRequest } = periodParams;
         console.log('[getBars]: Method call', symbolInfo, resolution, from, to);
-        const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
-        const urlParameters = {
-            e: parsedSymbol.exchange,
-            fsym: parsedSymbol.fromSymbol,
-            tsym: parsedSymbol.toSymbol,
-            toTs: to,
-            limit: 2000,
-        };
-        const query = Object.keys(urlParameters)
-            .map(name => `${name}=${encodeURIComponent(urlParameters[name])}`)
-                .join('&');
+
         try {
-            console.log(`data/histoday?${query}`)
-            const data = await makeApiRequest(`data/histoday?${query}`);
+            const data = await makeFcsAPiReq('history-data');
             if (data.Response && data.Response === 'Error' || data.Data.length === 0) {
                 // "noData" should be set if there is no data in the requested period
                 onHistoryCallback([], { noData: true });
                 return;
             }
+            console.log(data);
             let bars = [];
             data.Data.forEach(bar => {
                 if (bar.time >= from && bar.time < to) {
@@ -145,7 +158,7 @@ export default {
     },
 
     subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-        console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
+        console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID, resolution);
     },
     unsubscribeBars: (subscriberUID) => {
         console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);

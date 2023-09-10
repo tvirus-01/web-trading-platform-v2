@@ -1,5 +1,5 @@
 from django.urls import path
-from userapp import views
+from userapp import views, api
 
 urlpatterns = [
     path("", views.userDashboard),
@@ -19,4 +19,6 @@ urlpatterns = [
     path("set/user-interval", views.ChangeUserInterval),
     path("user-dashboard", views.userProfileDashboard),
     path("test-user", views.testUser),
+    path("api/currency-lists", api.getCurrencyLists),
+    path("api/history-data", api.getHistoryData),
 ]

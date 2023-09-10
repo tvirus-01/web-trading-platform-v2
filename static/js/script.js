@@ -6,20 +6,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
          document.documentElement.style.setProperty("--visibleBefore", "none");
          sidebarToggle.style.visibility="hidden"
      }
-    const chart = document.getElementById("chart").shadowRoot.children[1].children[0].children[0].shadowRoot.children[1].children[0];
-    const mobileChart = document.getElementById("mobile-chart").shadowRoot.children[1].children[0].children[0].shadowRoot.children[1].children[0];
+    // const chart = document.getElementById("chart").shadowRoot.children[1].children[0].children[0].shadowRoot.children[1].children[0];
+    // const mobileChart = document.getElementById("mobile-chart").shadowRoot.children[1].children[0].children[0].shadowRoot.children[1].children[0];
 
     // Changes background color of time scale 
-    chart.children[0].children[1].style.background = "#59aae9";
-    chart.children[0].children[1].children[0].style.opacity = "80%";
-    chart.children[0].children[1].children[1].style.opacity = "80%";
-    chart.children[0].children[1].children[2].style.opacity = "80%";
+    // chart.children[0].children[1].style.background = "#59aae9";
+    // chart.children[0].children[1].children[0].style.opacity = "80%";
+    // chart.children[0].children[1].children[1].style.opacity = "80%";
+    // chart.children[0].children[1].children[2].style.opacity = "80%";
 
     // Changes background color of mobile time scale 
-    mobileChart.children[0].children[1].style.background = "#59aae9";
-    mobileChart.children[0].children[1].children[0].style.opacity = "80%";
-    mobileChart.children[0].children[1].children[1].style.opacity = "80%";
-    mobileChart.children[0].children[1].children[2].style.opacity = "80%";
+    // mobileChart.children[0].children[1].style.background = "#59aae9";
+    // mobileChart.children[0].children[1].children[0].style.opacity = "80%";
+    // mobileChart.children[0].children[1].children[1].style.opacity = "80%";
+    // mobileChart.children[0].children[1].children[2].style.opacity = "80%";
 
     if (sidebarToggle || sidebarHide) {
         sidebarToggle.addEventListener('click', event => {
@@ -92,19 +92,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
          bottomHideTable.style.display="none"
          bottomShowTable.style.display="block"
          if(bottomTable.classList.contains('hide-table')){
-             outerChart.style.height = "calc(100% - 74px)";
-             chart.style.height = "100%";
+            //  outerChart.style.height = "calc(100% - 74px)";
+            //  chart.style.height = "100%";
              bottomTableButtons.style.visibility = "hidden";
              bottomTableContent.style.visibility = "hidden";
              window.dispatchEvent(new Event('resize'));
-             chartZoomControl.style.bottom = "20%";
+            //  chartZoomControl.style.bottom = "20%";
          }else{
-             outerChart.style.height = `${dimensions.height * 0.60}px`;
-             chart.style.height = `${dimensions.height * 0.60}px`;
+            //  outerChart.style.height = `${dimensions.height * 0.60}px`;
+            //  chart.style.height = `${dimensions.height * 0.60}px`;
              bottomTableButtons.style.visibility = "visible";
              bottomTableContent.style.visibility = "visible";
              window.dispatchEvent(new Event('resize'));
-             chartZoomControl.style.bottom = "10%";
+            //  chartZoomControl.style.bottom = "10%";
          }   
      });
      bottomShowTable.addEventListener('click', event => {
@@ -116,19 +116,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
          bottomShowTable.style.display="none"
          bottomHideTable.style.display="block";
          if(bottomTable.classList.contains('hide-table')){
-             outerChart.style.height = "calc(100% - 74px)";
-             chart.style.height = "100%";
+            //  outerChart.style.height = "calc(100% - 74px)";
+            //  chart.style.height = "100%";
              bottomTableButtons.style.visibility = "hidden";
              bottomTableContent.style.visibility = "hidden";
              window.dispatchEvent(new Event('resize'));
-             chartZoomControl.style.bottom = "20%";
+            //  chartZoomControl.style.bottom = "20%";
          }else{
-             outerChart.style.height = `${dimensions.height * 0.60}px`;
-             chart.style.height = `${dimensions.height * 0.60}px`;
+            //  outerChart.style.height = `${dimensions.height * 0.60}px`;
+            //  chart.style.height = `${dimensions.height * 0.60}px`;
              bottomTableButtons.style.visibility = "visible";
              bottomTableContent.style.visibility = "visible";
              window.dispatchEvent(new Event('resize'));
-             chartZoomControl.style.bottom = "10%"
+            //  chartZoomControl.style.bottom = "10%"
          }   
      });
  }
@@ -187,7 +187,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
      $('[data-bs-toggle=popover]').each(function () {
          // hide any open popovers when the anywhere else in the body is clicked
          if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-             bootstrap.Popover.getInstance($(this)).hide();
+            //  bootstrap.Popover.getInstance($(this)).hide();
          }
          if($(this).has(e.target) && $(e.target).hasClass('popover-close')){
              bootstrap.Popover.getInstance($(this)).hide();
@@ -804,7 +804,7 @@ function addChartControl(Symbol, change=false){
     controlButton.innerHTML = `
     <a class="deleteChartControl" onClick="removeChartControl(event)">X</a> 
     <span>${normalizedSymbol}</span>` 
-    chartControl.appendChild(controlButton);
+    // chartControl.appendChild(controlButton);
  }
 }
 
@@ -849,7 +849,7 @@ function fillChartControlForex(){
          </div>`
      )
  })
- chartControl.innerHTML = tableData.join('');
+//  chartControl.innerHTML = tableData.join('');
 }
 
 // Array of data used by the active table

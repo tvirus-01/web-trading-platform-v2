@@ -1421,7 +1421,8 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 }
 
 .chart-elements-wrapper.full-height #chart{
-    height: 100%;
+    /* height: 100%; */
+    height: 0%;
 }
 
 .chart-zoom-buttons-container{

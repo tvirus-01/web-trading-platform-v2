@@ -48,7 +48,7 @@ def adminDashboard(request):
         'all_users_data': all_users_data,
         'active_nav': 'dashboard'
     }
-    
+
     return render(request, "adminapp/dashboard.html", context=context)
 
 
@@ -80,6 +80,47 @@ def usersTradingAccounts(request):
         'title': 'Accounts'
     }
     return render(request, "adminapp/trading_accounts.html", context=context)
+
+@login_required(login_url='/login')
+def usersTradingAccountsEdit(request):  # sourcery skip: avoid-builtin-shadow
+    current_user = request.user
+    if not current_user.is_staff:
+        return redirect("/")
+
+    data_out = json.dumps({"message":"failed"}, indent=2, sort_keys=True, default=str)
+
+    account_status = request.GET.get("account_status", False)
+    account_state = request.GET.get("account_state", False)
+    account_type = request.GET.get("account_type", False)
+    id = request.GET.get("id", False)
+
+    if account_status != False or account_state != False or account_type != False:
+        if trading_account := tradingAccounts.objects.filter(id=id):
+            trading_account = trading_account[0]
+            trading_account.status = account_status
+            trading_account.state = account_state
+            trading_account.account_type = account_type
+            trading_account.save()
+
+            data_out = json.dumps({"message":"success"}, indent=2, sort_keys=True, default=str) 
+
+    return HttpResponse(data_out, content_type='application/json')
+
+@login_required(login_url='/login')
+def deleteUserAccount(request):  # sourcery skip: avoid-builtin-shadow
+    current_user = request.user
+    if not current_user.is_staff:
+        return redirect("/")
+
+    data_out = json.dumps({"message":"failed"}, indent=2, sort_keys=True, default=str)
+
+    id = request.GET.get("user_id", False)
+
+    u = User.objects.get(id=id)
+    u.delete()
+    data_out = json.dumps({"message":"success"}, indent=2, sort_keys=True, default=str)
+
+    return HttpResponse(data_out, content_type='application/json') 
 
 @login_required(login_url='/login')
 def liveOrders(request):

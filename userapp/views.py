@@ -3,6 +3,7 @@ import random
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import json
+from datetime import timezone
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, logout
@@ -22,14 +23,16 @@ def userDashboard(request):
     current_user = request.user
     if current_user.is_staff:
         return redirect("/admin")
-    
+
+    server_time = datetime.now(timezone.utc).strftime("%H:%M:%S")
+
     if userSymbolData := UserActiveSymbol.objects.filter(user_id=current_user.id):
         user_symbol = userSymbolData[0].symbol
         user_interval = userSymbolData[0].chart_interval
         active_symbol = userSymbolData[0].symbol_type
     else:
         user_symbol = "EURUSD"
-        user_interval = "5m"
+        user_interval = "1D"
         active_symbol = "forex"
 
     context = {
@@ -38,6 +41,7 @@ def userDashboard(request):
         'user_symbol': user_symbol,
         'user_interval': user_interval,
         'active_symbol_type': active_symbol,
+        'server_time': server_time
     }
     return render(request, "user/index.html", context=context)
 
@@ -290,10 +294,17 @@ def getHistoryData(request):
         interval = userSymbolData[0].chart_interval
         symbol_type = userSymbolData[0].symbol_type
     else:
-        symbol = "EURUSD"
-        interval = "5m"
-        symbol_type = "forex"
-    # data_out = json.dumps({}, indent=2, sort_keys=True, default=str)
+        symbol = "BTC/USD"
+        interval = "1d"
+        symbol_type = "crypto"
+
+        data = UserActiveSymbol.objects.create(
+            user = current_user,
+            symbol = symbol,
+            symbol_type = symbol_type,
+            chart_interval = interval
+        )
+    data_out = json.dumps({}, indent=2, sort_keys=True, default=str)
 
     if data := CurrencyLists.objects.filter(symbol=symbol):
         if symbol_type and interval:
@@ -456,5 +467,20 @@ def verifyUser(request, verification_code):
         return redirect("/login")
     
 def testUser(request):
+    currency_lists = CurrencyLists.objects.all()
 
-    return render(request, "test.html")
+    for currency in currency_lists:
+        url = f"https://fcsapi.com/api-v3/forex/latest?id={currency.id}&access_key={config.API_KEY}"
+
+        res = requests.get(url)
+        data = res.json()['response'][0]
+
+        currency.ask = data['a']
+        currency.bid = data['b']
+        currency.spread = data['sp']
+        currency.change = data['ch']
+        currency.change_per = data['cp']
+        currency.save()
+
+    # return render(request, "test.html")
+    return HttpResponse("hello")

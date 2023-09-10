@@ -9,4 +9,6 @@ urlpatterns = [
     path('closed-orders', views.closedOrders),
     path('deposits', views.deposits),
     path('withdraw', views.withdraw),
+    path('edit-trading-accounts', views.usersTradingAccountsEdit),
+    path('del-user-account', views.deleteUserAccount),
 ]

@@ -34,6 +34,7 @@
                     <th>Status</th>
                     <th>State</th>
                     <th>Account Type</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
 
@@ -44,16 +45,39 @@
                     <td>{{ ta.account_number }}</td>
                     <td>{{ ta.account_type }}</td>
                     <td>{{ ta.server }}</td>
-                    <td>{{ ta.levrage }}</td>
+                    <td>{{ ta.leverage }}</td>
                     <td>{{ ta.currency }}</td>
                     <td>{{ ta.balance }}</td>
                     <td>{{ ta.equity }}</td>
                     <td>{{ ta.free_meargin }}</td>
                     <td>{{ ta.loss_profit }}</td>
                     <td>{{ ta.account_credits }}</td>
-                    <td>{{ ta.status }}</td>
-                    <td>{{ ta.state }}</td>
-                    <td>{{ ta.account_type }}</td>
+                    <td>
+                      <select name="account_status_{{ta.id}}" class="form-control text-center" style="width: 5rem; color: #8b92a9;" disabled>
+                        <option value="disabled" {% if ta.status == 'disabled' %} selected {% endif %}>Disabled</option>
+                        <option value="active" {% if ta.status == 'active' %} selected {% endif %}>Active</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select name="account_state_{{ta.id}}" class="form-control text-center" style="width: 8rem; color: #8b92a9;" disabled>
+                        <option value="trading_disabled" {% if ta.state == 'trading_disabled' %} selected {% endif %}>Trading Disabled</option>
+                        <option value="trading_allowed" {% if ta.state == 'trading_allowed' %} selected {% endif %}>Trading Allowed</option>
+                        <option value="trading_hold" {% if ta.state == 'trading_hold' %} selected {% endif %}>Trading Hold</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select name="account_type_{{ta.id}}" class="form-control text-center" style="width: 5rem; color: #8b92a9;" disabled>
+                        <option value="MICRO" {% if ta.account_type == 'MICRO' %} selected {% endif %}>MICRO</option>
+                        <option value="Business" {% if ta.account_type == 'Business' %} selected {% endif %}>Business</option>
+                        <option value="Business Plus" {% if ta.account_type == 'Business Plus' %} selected {% endif %}>Business Plus</option>
+                        <option value="STANDARD" {% if ta.account_type == 'STANDARD' %} selected {% endif %}>STANDARD</option>
+                        <option value="Professional" {% if ta.account_type == 'Professional' %} selected {% endif %}>Professional</option>
+                      </select>
+                    </td>
+                    <td>
+                      <button class="btn btn-primary btn-sm btn-edit" account_id="{{ ta.id }}" status="edit">Edit</button>
+                      <p class="text-center" style="font-size: 11px; margin: 0; display: none;" id="err_msg_{{ta.id}}"></p>
+                    </td>
                   {% endfor %}
                 </tbody>
 
@@ -64,7 +88,8 @@
       </div>
       <footer class="footer">
         <div class="container-fluid">
-          <!-- your footer here -->
+          <script src="{% static 'user-dashboard/assets/js/core/jquery.min.js' %}"></script>
+          <script src="{% static 'js/admin/ta.js' %}"></script>
         </div>
       </footer>
     </div>

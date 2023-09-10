@@ -8,6 +8,15 @@ export async function makeApiRequest(path) {
     }
 }
 
+export async function makeFcsAPiReq(path) {
+    try {
+        const response = await fetch(`api/${path}`);
+        return response.json();
+    } catch(error) {
+        throw new Error(`CryptoCompare request error: ${error.status}`);
+    }
+}
+
 // Generates a symbol ID from a pair of the coins
 export function generateSymbol(exchange, fromSymbol, toSymbol) {
     const short = `${fromSymbol}/${toSymbol}`;

@@ -1,44 +1,3 @@
-window.chartType = getCookie("chartType");
-window.activeSymbol = $("#user_current_symbol").val();
-window.activeType = $("#active_symbol_type").val();
-window.chartInterval = $("#user_interval").val();
-$(".interval-btn").text(window.chartInterval);
-
-if (window.chartType == null) {
-    document.cookie="chartType=candlestick";
-    window.top.location = window.top.location;
-}
-if (window.activeSymbol == null) {
-    document.cookie="activeSymbol=USDJPY";
-    window.top.location = window.top.location;
-}
-if (window.activeType == null) {
-    document.cookie="activeType=forex";
-    window.top.location = window.top.location;
-}
-if (window.chartInterval == null) {
-    document.cookie="chartInterval=5m";
-    window.top.location = window.top.location;
-}
-addChartControl(window.activeSymbol);
-
-function chnageAddTime(){
-    if(window.chartInterval == '1m'){
-        window.chartTimeToAdd = 60;
-    }else if(window.chartInterval == '5m'){
-        window.chartTimeToAdd = 300;
-    }else if(window.chartInterval == '15m'){
-        window.chartTimeToAdd = 900;
-    }else if(window.chartInterval == '30m'){
-        window.chartTimeToAdd = 1800;
-    }else if(window.chartInterval == '1h'){
-        window.chartTimeToAdd = 3600;
-    }else{
-        window.chartTimeToAdd = 0;
-    }
-}
-chnageAddTime();
-
 function changeAskBid(datapoint){
     ask_p = document.querySelector("#ask_"+datapoint.id);
     bid_p = document.querySelector("#bid_"+datapoint.id);
@@ -94,16 +53,6 @@ setInterval(() => {
     });
 }, 500);
 
-
-// get cookie value 
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-
-    return null;
-}
-
 function getHistoryData(force_new){
     
     const chartWrapperReference = document.getElementById("chart");
@@ -131,59 +80,6 @@ function getHistoryData(force_new){
             window.chart_next_timestamp = chart_data_last.time + window.chartTimeToAdd;
         });
 }
-
-setInterval(() => {
-    getHistoryData(true);
-}, 500);
-
-function changeActiveSymbol(){
-    symbol = $(this).attr("symbol");
-    symbol_type = $(this).attr("type");
-
-    document.cookie=`activeSymbol=${symbol}`;
-    document.cookie=`activeType=${symbol_type}`;
-    window.activeSymbol = symbol;
-    window.activeType = symbol_type;
-
-    document.getElementsByClassName('legend-symbol')[0].innerHTML = window.activeSymbol;
-
-    fetch(
-        "/set/user-symbol?symbol="+symbol+"symbol_type="+symbol_type
-    )
-    .then(r => {
-        if (r.status == 200) {
-            getHistoryData(true);
-            addChartControl(window.activeSymbol, true);
-        }
-    });    
-}
-
-function changeChartInterval(){
-    interval = $(this).attr("interval");
-
-    document.cookie=`chartInterval=${interval}`;
-    window.chartInterval = interval;
-    $(".interval-btn").text(interval);
-
-    fetch(
-        "/set/user-interval?userinterval="+interval
-    )
-    .then(r => {
-        if (r.status == 200) {
-            getHistoryData(true);
-            chnageAddTime();
-        }
-    });
-}
-// function chnageChartType(){
-//     chartType = $(this).attr("val");
-
-//     document.cookie="chartType="+chartType;
-//     window.chartType = chartType;
-// }
-$(document).on("click", ".left-panel-table-row", changeActiveSymbol);
-$(document).on("click", ".change-stats-button", changeChartInterval);
-// $(document).on("click", ".change-chart-type-btn", chnageChartType);
 
 $("#left-panel-search").keyup(function () {
     const tableSearch = document.getElementById('search_result_container');
@@ -238,21 +134,3 @@ $(".left-panel-dropdown-select").click(function () {
         selected_type.text(select_type);
     }
 })
-
-$(".quick-trade-now").click(function (){
-    order_type = $(this).attr("type");
-    open_price = $("#quick-trding-"+order_type+"-value").text();
-    trade_amount = $("#quick-trading-value-input").val();
-
-    fetch(
-        `/save/new-order?symbol=${window.activeSymbol}&open_price=${open_price}&order_type=${order_type}&trade_amount=${trade_amount}`
-    )
-    .then(r => r.json())
-    .then(r => {
-        if(r['msg'] == "success"){
-            console.log("new trade added");
-        }
-    })
-})
-
-console.log("hello")

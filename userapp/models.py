@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 class CurrencyLists(models.Model):
     name = models.CharField(max_length=100)
     symbol = models.CharField(max_length=10)
+    symbolShort = models.CharField(max_length=10, default="")
     symbol_type = models.CharField(max_length=10)
     decimal = models.IntegerField()
     ask = models.CharField(max_length=20)
@@ -20,20 +21,6 @@ class CurrencyLists(models.Model):
 
     class Meta:
         db_table = "currency_lists"
-
-class UserData(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(null=False, max_length=22)
-    country = models.CharField(null=False, max_length=3)
-    account_type = models.CharField(null=False, max_length=50)
-    referral_code = models.CharField(null=False, max_length=50)
-    is_email_verified = models.BooleanField(default=False)
-    verification_code = models.CharField(null=False, max_length=36, default="")
-    trading_account_allowed = models.IntegerField(null=False, default=1)
-    last_modified_by = models.CharField(null=False, max_length=10, default="none")
-
-    class Meta:
-        db_table = "auth_user_info"
 
 class UserActiveSymbol(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

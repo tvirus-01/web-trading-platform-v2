@@ -8,6 +8,7 @@
     </div>
     <div class="navbar-right">
         <div class="navbar-right-1">
+            <span>Server Time: <strong class="text-success">{{server_time}}</strong></span>
             <span>Equity: <strong>952.87</strong></span>
             <span>Balance: <strong>€ 0.00</strong></span>
             <a class="btn-deposit">
@@ -201,6 +202,7 @@
             <div class="main-content-container">
                 <div class="chart-container">                    
                     <div class="chart-elements-wrapper">
+                        <div id="chart"></div>
                         <div id="tv_chart_container"></div>
                         <script type="text/javascript" src="{% static 'charting_library/charting_library.js' %}"></script>
                         <script type="module" src="{% static 'charting/main.js' %}"></script>
